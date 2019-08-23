@@ -1,18 +1,5 @@
 defmodule Bennu do
   @moduledoc """
-  Documentation for Bennu.
+  Component system and rendering engine for Phoenix and LiveView
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Bennu.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end

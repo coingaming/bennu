@@ -21,8 +21,20 @@ defmodule Bennu.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:phoenix, "~> 1.4.9"},
+      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix_html, "~> 2.11"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:gettext, "~> 0.11"},
+      {:jason, "~> 1.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:gen_enum, "~> 0.4.1"},
+      {:typable, "~> 0.3"},
+      {:defnamed, "~> 0.1.3"},
+      {:backoffice_core, git: "git@github.com:coingaming/backoffice_core.git"},
+      {:selectable, github: "coingaming/selectable"},
+      {:readable, "~> 0.1.0"},
+      {:meme, "~> 0.2"}
     ]
   end
 end
