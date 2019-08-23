@@ -1,11 +1,12 @@
 # Bennu
 
-**TODO: Add description**
+Component system and rendering engine for Phoenix and LiveView
+
+<img src="priv/img/logo.png" width="300"/>
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `bennu` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `bennu` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -14,8 +15,3 @@ def deps do
   ]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/bennu](https://hexdocs.pm/bennu).
-
