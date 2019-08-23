@@ -26,6 +26,8 @@ defmodule Bennu.Component do
       require Bennu.Design.Items, as: Design
       require Bennu.Design.Meta, as: DesignMeta
       require Bennu.Engine, as: Engine
+      require Bennu.Env.OnDuplicate.Items, as: OnDuplicate
+      require Bennu.Env.Ref, as: EnvRef
       require Bennu.FontAwesome.Icon.Items, as: FaIcon
       require Bennu.RenderContext, as: RenderContext
       require Bennu.StdEnv, as: StdEnv
