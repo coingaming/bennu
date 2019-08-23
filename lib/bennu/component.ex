@@ -30,7 +30,6 @@ defmodule Bennu.Component do
       require Bennu.Env.Ref, as: EnvRef
       require Bennu.FontAwesome.Icon.Items, as: FaIcon
       require Bennu.RenderContext, as: RenderContext
-      require Bennu.StdEnv, as: StdEnv
       require Bennu.Utils, as: Utils
       require Ecto.Changeset, as: Changeset
       require Phoenix.LiveView.Socket, as: Socket

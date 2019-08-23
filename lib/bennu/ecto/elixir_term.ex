@@ -55,6 +55,8 @@ defmodule Bennu.Ecto.ElixirTerm do
       |> Macro.escape()
       |> Macro.postwalk(fn
         {:%{}, [], [{:__struct__, type} | xs]} ->
+          :ok = Bennu.Ecto.ElixirType.try_load(type)
+
           {:%, [],
            [
              {:__aliases__, [alias: false],

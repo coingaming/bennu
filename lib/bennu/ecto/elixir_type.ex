@@ -25,6 +25,7 @@ defmodule Bennu.Ecto.ElixirType do
     try do
       with mod <- String.to_existing_atom(x),
            {false, ^mod} <- {MapSet.member?(@kernel_types, mod), mod},
+           :ok <- try_load(mod),
            {true, ^mod} <- {:erlang.function_exported(mod, :__info__, 1), mod} do
         {:ok, mod}
       else
@@ -47,4 +48,20 @@ defmodule Bennu.Ecto.ElixirType do
 
   def dump(x) when is_atom(x), do: {:ok, Atom.to_string(x)}
   def dump(_), do: :error
+
+  def try_load(module) do
+    _ = Code.ensure_loaded(module)
+
+    try do
+      module.__info__(:functions)
+      # this String.to_atom is safe because module exists
+      module
+      |> Module.split()
+      |> Enum.each(&String.to_atom/1)
+    rescue
+      _ -> :ok
+    end
+
+    :ok
+  end
 end

@@ -1,10 +1,10 @@
 defmodule Bennu.LiveForm do
   require Bennu.Design.Meta, as: DesignMeta
 
-  defmacro __using__(_) do
+  defmacro __using__(web_module) do
     quote location: :keep do
       use Phoenix.LiveView
-      # use PhoenixComponents.View, namespace: SiteBuilderFlaskWeb.Components
+      use PhoenixComponents.View, namespace: unquote(web_module).Components
 
       import_components(
         [
@@ -21,13 +21,13 @@ defmodule Bennu.LiveForm do
         from: BackofficeCoreWeb.Components
       )
 
-      # defp enum_gettext(enum_name, item) when is_atom(enum_name) and is_atom(item) do
-      #   enum_gettext(enum_name |> Atom.to_string(), item |> Atom.to_string())
-      # end
-      #
-      # defp enum_gettext(enum_name, item) do
-      #   Gettext.dgettext(SiteBuilderFlaskWeb.Gettext, enum_name, item)
-      # end
+      defp enum_gettext(enum_name, item) when is_atom(enum_name) and is_atom(item) do
+        enum_gettext(enum_name |> Atom.to_string(), item |> Atom.to_string())
+      end
+
+      defp enum_gettext(enum_name, item) do
+        Gettext.dgettext(unquote(web_module).Gettext, enum_name, item)
+      end
 
       defp has_errors?(%{errors: errors}, field) do
         not Enum.empty?(Keyword.get_values(errors, field))
@@ -38,7 +38,7 @@ defmodule Bennu.LiveForm do
       end
 
       import Phoenix.HTML.Form
-      # import SiteBuilderFlaskWeb.ErrorHelpers
+      import unquote(web_module).ErrorHelpers
     end
   end
 
