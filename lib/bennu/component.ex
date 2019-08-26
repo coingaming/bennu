@@ -23,6 +23,8 @@ defmodule Bennu.Component do
     quote do
       require Bennu.Bootstrap.Color.Items, as: BSColor
       require Bennu.Bootstrap.Color.Meta, as: BSColorMeta
+      require Bennu.Coreui.Icon.Items, as: CoreuiIcon
+      require Bennu.Coreui.Icon.Meta, as: CoreuiIconMeta
       require Bennu.Design.Items, as: Design
       require Bennu.Design.Meta, as: DesignMeta
       require Bennu.Engine, as: Engine
