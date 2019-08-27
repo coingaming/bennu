@@ -3,9 +3,13 @@ use Bennu.Component.Table
 defrender type: Table,
           design: Design.default_coreui(),
           input: %Input{},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   renderer = fn %Input{header: header, rows: rows} ->
-    assigns = %{header: List.first(header), rows: rows}
+    assigns = %{
+      socket: socket,
+      header: List.first(header),
+      rows: rows
+    }
 
     ~l"""
     table.table.table-responsive-sm.table-borderless.table-striped

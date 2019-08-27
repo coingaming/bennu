@@ -4,7 +4,7 @@ require Bennu.ResponsiveBootstrap, as: ResponsiveBootstrap
 defrender type: Grid,
           design: Design.default_coreui(),
           input: %Input{items_responsive_bootstrap: responsive},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   %ResponsiveBootstrap{
     xs: xs,
     sm: sm,
@@ -19,6 +19,7 @@ defrender type: Grid,
 
   renderer = fn %Input{items: items} ->
     assigns = %{
+      socket: socket,
       items: items,
       item_class: "col-#{xs} col-xs-#{xs} col-sm-#{sm} col-md-#{md} col-lg-#{lg} col-xl-#{xl}"
     }

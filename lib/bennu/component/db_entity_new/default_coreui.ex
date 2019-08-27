@@ -9,7 +9,7 @@ defrender type: DBEntityNew,
             live: [live],
             compact: [compact]
           },
-          context: %RenderContext{} = ctx do
+          context: %RenderContext{socket: %Socket{} = socket} = ctx do
   component = %Card{
     input: %Card.Input{
       header: [
@@ -64,7 +64,7 @@ defrender type: DBEntityNew,
     )
 
   renderer = fn %Input{} ->
-    assigns = %{html: html}
+    assigns = %{html: html, socket: socket}
 
     case compact do
       true ->

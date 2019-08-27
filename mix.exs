@@ -9,7 +9,15 @@ defmodule Bennu.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      # dialyxir
+      dialyzer: [
+        ignore_warnings: ".dialyzer_ignore",
+        plt_add_apps: [
+          :mix,
+          :ex_unit
+        ]
+      ]
     ]
   end
 
@@ -36,7 +44,14 @@ defmodule Bennu.MixProject do
       {:backoffice_core, git: "git@github.com:coingaming/backoffice_core.git"},
       {:selectable, github: "coingaming/selectable"},
       {:readable, "~> 0.1.0"},
-      {:meme, "~> 0.2"}
+      {:meme, "~> 0.2"},
+      # dev tools
+      {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false},
+      {:credo, "~> 0.9", only: [:dev, :test], runtime: false},
+      {:benchwarmer, "~> 0.0.2", only: [:dev, :test], runtime: false},
+      {:benchfella, "~> 0.3.0", only: :bench, runtime: false}
     ]
   end
 

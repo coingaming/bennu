@@ -3,9 +3,10 @@ use Bennu.Component.PageHeader
 defrender type: PageHeader,
           design: Design.default_coreui(),
           input: %Input{page_sidebar_exists: page_sidebar_exists},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   renderer = fn %Input{brand: [brand], left: left, right: right} ->
     assigns = %{
+      socket: socket,
       brand: brand,
       page_sidebar_exists: List.first(page_sidebar_exists),
       left: left,

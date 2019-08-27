@@ -1,30 +1,30 @@
 defmodule Bennu.Ecto.ElixirType do
   @behaviour Ecto.Type
   @kernel_types [
-                  # scalars
-                  Atom,
-                  BitString,
-                  Float,
-                  Function,
-                  Integer,
-                  PID,
-                  Port,
-                  Reference,
-                  # collections
-                  Tuple,
-                  List,
-                  Map,
-                  # special case
-                  Any
-                ]
-                |> MapSet.new()
+    # scalars
+    Atom,
+    BitString,
+    Float,
+    Function,
+    Integer,
+    PID,
+    Port,
+    Reference,
+    # collections
+    Tuple,
+    List,
+    Map,
+    # special case
+    Any
+  ]
 
   def type, do: :string
 
   def cast(<<"Elixir.", _::binary>> = x) do
     try do
       with mod <- String.to_existing_atom(x),
-           {false, ^mod} <- {MapSet.member?(@kernel_types, mod), mod},
+           # sacrifice performance to satisfy Dialyzer (opaque type MapSet.t)
+           {false, ^mod} <- {@kernel_types |> MapSet.new() |> MapSet.member?(mod), mod},
            :ok <- try_load(mod),
            {true, ^mod} <- {:erlang.function_exported(mod, :__info__, 1), mod} do
         {:ok, mod}

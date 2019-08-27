@@ -3,9 +3,10 @@ use Bennu.Component.Card
 defrender type: Card,
           design: Design.default_coreui(),
           input: %Input{},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: socket} do
   renderer = fn %Input{header: mheader, body: body, footer: mfooter} ->
     assigns = %{
+      socket: %Socket{} = socket,
       header: List.first(mheader),
       body: body,
       footer: List.first(mfooter)

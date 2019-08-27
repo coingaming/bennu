@@ -3,9 +3,10 @@ use Bennu.Component.Brand
 defrender type: Brand,
           design: Design.default_coreui(),
           input: %Input{src_full: [src_full], src_min: msrc_min},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   renderer = fn %Input{} ->
     assigns = %{
+      socket: socket,
       src_full: src_full,
       src_min:
         msrc_min

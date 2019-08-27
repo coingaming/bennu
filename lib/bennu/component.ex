@@ -139,16 +139,18 @@ defmodule Bennu.Component do
 
       defmodule unquote(input_type) do
         #
-        # TODO : GENERATE TYPE T !!!
+        # TODO : GENERATE TYPE T PROPERLY???
         #
+        @type t :: %__MODULE__{}
         @enforce_keys unquote(Map.keys(input_spec))
         defstruct @enforce_keys
       end
 
       defmodule unquote(output_type) do
         #
-        # TODO : GENERATE TYPE T !!!
+        # TODO : GENERATE TYPE T PROPERLY???
         #
+        @type t :: %__MODULE__{}
         @enforce_keys unquote(Map.keys(output_spec))
         defstruct @enforce_keys
       end

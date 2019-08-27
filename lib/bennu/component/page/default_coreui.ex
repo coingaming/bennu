@@ -6,7 +6,7 @@ defrender type: Page,
             page_title: page_title,
             page_meta_keywords: page_meta_keywords
           },
-          context: %RenderContext{} = ctx do
+          context: %RenderContext{socket: %Socket{} = socket} = ctx do
   renderer = fn %Input{
                   header: mheader,
                   sidebar: msidebar,
@@ -26,6 +26,7 @@ defrender type: Page,
       )
 
     assigns = %{
+      socket: socket,
       header: List.first(mheader),
       sidebar: List.first(msidebar),
       breadcrumb: List.first(mbreadcrumb),

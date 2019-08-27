@@ -14,7 +14,7 @@ defrender type: Button,
             form_name: mform_name,
             onclick: monclick
           },
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   renderer = fn %Input{} ->
     bs_color =
       mbs_color
@@ -42,6 +42,7 @@ defrender type: Button,
       end
 
     assigns = %{
+      socket: socket,
       onclick: onclick,
       class: "btn btn-pill btn-#{bs_color |> Utils.enum2css_class()} mr-2",
       text: text,

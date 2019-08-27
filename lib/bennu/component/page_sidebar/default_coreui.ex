@@ -3,9 +3,13 @@ use Bennu.Component.PageSidebar
 defrender type: PageSidebar,
           design: Design.default_coreui(),
           input: %Input{},
-          context: %RenderContext{} do
+          context: %RenderContext{socket: %Socket{} = socket} do
   renderer = fn %Input{title: title, links: links} ->
-    assigns = %{title: List.first(title), links: links}
+    assigns = %{
+      socket: socket,
+      title: List.first(title),
+      links: links
+    }
 
     ~l"""
     .sidebar

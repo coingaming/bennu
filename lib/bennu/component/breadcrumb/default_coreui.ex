@@ -4,6 +4,7 @@ defrender type: Breadcrumb,
           design: Design.default_coreui(),
           input: %Input{},
           context: %RenderContext{
+            socket: %Socket{} = socket,
             base_path: base_path,
             path: path
           } do
@@ -18,6 +19,7 @@ defrender type: Breadcrumb,
   #
   renderer = fn %Input{} ->
     assigns = %{
+      socket: socket,
       links:
         links
         |> Enum.reverse()

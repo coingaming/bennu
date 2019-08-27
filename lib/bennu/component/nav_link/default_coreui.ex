@@ -4,7 +4,7 @@ use Bennu.Component.NavLink
 defrender type: NavLink,
           design: Design.default_coreui(),
           input: %Input{src: [src], text: [text], icon: micon, active: mactive},
-          context: %RenderContext{conn: %Conn{} = conn} do
+          context: %RenderContext{conn: %Conn{} = conn, socket: %Socket{} = socket} do
   renderer = fn %Input{} ->
     icon =
       micon
@@ -15,6 +15,7 @@ defrender type: NavLink,
       end
 
     assigns = %{
+      socket: socket,
       src: src,
       text: text,
       icon: icon,

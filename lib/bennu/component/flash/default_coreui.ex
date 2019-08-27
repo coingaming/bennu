@@ -3,9 +3,10 @@ use Bennu.Component.Flash
 defrender type: Flash,
           design: Design.default_coreui(),
           input: %Input{},
-          context: %RenderContext{conn: %Conn{assigns: conn_assigns}} do
+          context: %RenderContext{conn: %Conn{assigns: conn_assigns}, socket: %Socket{} = socket} do
   renderer = fn %Input{} ->
     assigns = %{
+      socket: socket,
       info: conn_assigns[:flash][:info],
       warn: conn_assigns[:flash][:warn],
       error: conn_assigns[:flash][:error]
