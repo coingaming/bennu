@@ -2,8 +2,8 @@ defmodule Bennu.RenderContext do
   @type t :: %__MODULE__{
           parent: t | nil,
           component: term,
-          name: atom,
-          index: non_neg_integer,
+          name: atom | nil,
+          index: non_neg_integer | nil,
           conn: Plug.Conn.t(),
           socket: %Phoenix.LiveView.Socket{},
           base_path: [String.t()],
