@@ -37,8 +37,10 @@ defmodule Bennu.Component do
       require Phoenix.LiveView.Socket, as: Socket
       require unquote(__MODULE__), as: Component
       import Bennu.LiveForm
+      import Bennu.Sigil
       import PhoenixSlime
       import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, trivial_renderer: 1]
+      alias Component.BOIndex
       alias Component.Brand
       alias Component.Breadcrumb
       alias Component.Button
@@ -52,6 +54,7 @@ defmodule Bennu.Component do
       alias Component.Game
       alias Component.Grid
       alias Component.Live
+      alias Component.Markdown
       alias Component.NavLink
       alias Component.Page
       alias Component.PageHeader

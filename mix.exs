@@ -45,6 +45,7 @@ defmodule Bennu.MixProject do
       {:selectable, github: "coingaming/selectable"},
       {:readable, "~> 0.1.0"},
       {:meme, "~> 0.2"},
+      {:earmark, "~> 1.3.5"},
       # dev tools
       {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
