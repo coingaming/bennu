@@ -74,7 +74,7 @@ defmodule Bennu.LiveForm do
     {design, []} = Code.eval_quoted(quoted_design, [], __CALLER__)
     true = DesignMeta.is_type(design)
     title = "New #{model_name}"
-    live_module = Module.concat(type, design |> Bennu.Utils.enum2module())
+    live_module = Module.concat(type, Bennu.Utils.enum2module(design) <> "Live")
 
     quote location: :keep do
       defrender type: unquote(type),
@@ -135,7 +135,7 @@ defmodule Bennu.LiveForm do
     {model_type, []} = Code.eval_quoted(quoted_model_type, [], __CALLER__)
     true = DesignMeta.is_type(design)
     title = "#{model_name} Details"
-    live_module = Module.concat(type, design |> Bennu.Utils.enum2module())
+    live_module = Module.concat(type, Bennu.Utils.enum2module(design) <> "Live")
 
     model = {:model, [], Elixir}
 
