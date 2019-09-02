@@ -6,6 +6,10 @@ defmodule Bennu.Utils do
     end
   end
 
+  def enum2module(x) when is_atom(x) do
+    x |> Atom.to_string() |> String.downcase() |> Macro.camelize()
+  end
+
   def path_to_string([]), do: "/"
   def path_to_string([_ | _] = path), do: Path.join(path)
 

@@ -74,6 +74,7 @@ defmodule Bennu.LiveForm do
     {design, []} = Code.eval_quoted(quoted_design, [], __CALLER__)
     true = DesignMeta.is_type(design)
     title = "New #{model_name}"
+    live_module = Module.concat(type, design |> Bennu.Utils.enum2module())
 
     quote location: :keep do
       defrender type: unquote(type),
@@ -85,9 +86,9 @@ defmodule Bennu.LiveForm do
 
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
-            module: [unquote(type).Live],
+            module: [unquote(live_module)],
             session: [
-              %unquote(type).Live{
+              %unquote(live_module){
                 form_name: form_name,
                 parent_path: parent_path,
                 changeset: nil,
@@ -134,6 +135,7 @@ defmodule Bennu.LiveForm do
     {model_type, []} = Code.eval_quoted(quoted_model_type, [], __CALLER__)
     true = DesignMeta.is_type(design)
     title = "#{model_name} Details"
+    live_module = Module.concat(type, design |> Bennu.Utils.enum2module())
 
     model = {:model, [], Elixir}
 
@@ -168,9 +170,9 @@ defmodule Bennu.LiveForm do
 
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
-            module: [unquote(type).Live],
+            module: [unquote(live_module)],
             session: [
-              %unquote(type).Live{
+              %unquote(live_module){
                 model: unquote(model),
                 update_form_name: update_form_name,
                 delete_form_name: delete_form_name,

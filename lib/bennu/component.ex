@@ -194,7 +194,7 @@ defmodule Bennu.Component do
         Renderable,
         short_type,
         WithDesign,
-        design |> Atom.to_string() |> String.downcase() |> Macro.camelize()
+        design |> Bennu.Utils.enum2module()
       ]
       |> Module.concat()
 
@@ -277,7 +277,7 @@ defmodule Bennu.Component do
         Renderable,
         short_type,
         WithDesign,
-        design |> Atom.to_string() |> String.downcase() |> Macro.camelize()
+        design |> Bennu.Utils.enum2module()
       ]
       |> Module.safe_concat()
 
