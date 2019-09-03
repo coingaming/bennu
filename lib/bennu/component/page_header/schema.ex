@@ -18,13 +18,13 @@ defcomponent Component.PageHeader do
     left(
       min_qty: nil,
       max_qty: nil,
-      type: Component.NavLink
+      type: Any
     )
 
     right(
       min_qty: nil,
       max_qty: nil,
-      type: Component.NavLink
+      type: Any
     )
   end
 
