@@ -26,6 +26,12 @@ defcomponent Component.PageHeader do
       max_qty: nil,
       type: Any
     )
+
+    bottom(
+      min_qty: nil,
+      max_qty: nil,
+      type: Any
+    )
   end
 
   output do
