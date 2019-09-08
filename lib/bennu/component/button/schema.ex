@@ -8,7 +8,7 @@ defcomponent Component.Button do
       type: BitString
     )
 
-    src(
+    href(
       min_qty: nil,
       max_qty: 1,
       type: BitString

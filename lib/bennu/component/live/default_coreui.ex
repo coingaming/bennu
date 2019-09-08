@@ -2,7 +2,7 @@ use Bennu.Component.Live
 
 defrender type: Live,
           design: Design.default_coreui(),
-          input: %Input{module: [module], session: [%{} = session]},
+          input: %Input{module: [module], session: [%{} = session], container: [container]},
           context: %RenderContext{index: index, socket: socket} do
   {
     fn %Input{} ->
@@ -10,7 +10,8 @@ defrender type: Live,
       |> Phoenix.LiveView.live_render(
         module,
         child_id: index,
-        session: session
+        session: session,
+        container: container
       )
     end,
     %Output{}

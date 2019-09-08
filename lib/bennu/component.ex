@@ -47,15 +47,16 @@ defmodule Bennu.Component do
       alias Component.Card
       alias Component.Column
       alias Component.ComponentList
-      alias Component.DBEntityDetails
-      alias Component.DBEntityList
-      alias Component.DBEntityNew
+      alias Component.EntityDetails
+      alias Component.EntityList
+      alias Component.EntityNew
       alias Component.Flash
       alias Component.Game
       alias Component.Grid
       alias Component.Live
       alias Component.Markdown
       alias Component.NavLink
+      alias Component.BlankPage
       alias Component.Page
       alias Component.PageHeader
       alias Component.PageSidebar

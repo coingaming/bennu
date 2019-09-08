@@ -87,6 +87,7 @@ defmodule Bennu.LiveForm do
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
             module: [unquote(live_module)],
+            container: [{:div, []}],
             session: [
               %unquote(live_module){
                 form_name: form_name,
@@ -99,15 +100,15 @@ defmodule Bennu.LiveForm do
           output: %Bennu.Component.Live.Output{}
         }
 
-        component = %Bennu.Component.DBEntityNew{
-          input: %Bennu.Component.DBEntityNew.Input{
+        component = %Bennu.Component.EntityNew{
+          input: %Bennu.Component.EntityNew.Input{
             parent_path: [parent_path],
             form_name: [form_name],
             title: [unquote(title)],
             live: [live],
             compact: [unquote(compact)]
           },
-          output: %Bennu.Component.DBEntityNew.Output{}
+          output: %Bennu.Component.EntityNew.Output{}
         }
 
         trivial_renderer(
@@ -171,6 +172,7 @@ defmodule Bennu.LiveForm do
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
             module: [unquote(live_module)],
+            container: [{:div, []}],
             session: [
               %unquote(live_module){
                 model: unquote(model),
@@ -185,8 +187,8 @@ defmodule Bennu.LiveForm do
           output: %Bennu.Component.Live.Output{}
         }
 
-        component = %Bennu.Component.DBEntityDetails{
-          input: %Bennu.Component.DBEntityDetails.Input{
+        component = %Bennu.Component.EntityDetails{
+          input: %Bennu.Component.EntityDetails.Input{
             parent_path: [parent_path],
             update_form_name: [update_form_name],
             delete_form_name: [delete_form_name],
@@ -194,7 +196,7 @@ defmodule Bennu.LiveForm do
             live: [live],
             compact: [unquote(compact)]
           },
-          output: %Bennu.Component.DBEntityDetails.Output{}
+          output: %Bennu.Component.EntityDetails.Output{}
         }
 
         trivial_renderer(

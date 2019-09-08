@@ -7,7 +7,7 @@ use Bennu.Component.Button
 defrender type: Button,
           design: Design.default_coreui(),
           input: %Input{
-            src: msrc,
+            href: mhref,
             text: [text],
             icon: micon,
             bs_color: mbs_color,
@@ -32,8 +32,8 @@ defrender type: Button,
         x -> "fa fa-#{x |> Utils.enum2css_class()} mr-1"
       end
 
-    src = List.first(msrc)
-    onclick = List.first(monclick) || ((src && "window.location.href = '#{src}';") || nil)
+    href = List.first(mhref)
+    onclick = List.first(monclick) || ((href && "window.location.href = '#{href}';") || nil)
 
     form_name =
       case onclick do

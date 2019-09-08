@@ -13,6 +13,12 @@ defcomponent Component.Live do
       max_qty: 1,
       type: Any
     )
+
+    container(
+      min_qty: 1,
+      max_qty: 1,
+      type: Any
+    )
   end
 
   output do

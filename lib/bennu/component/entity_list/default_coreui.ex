@@ -1,6 +1,6 @@
-use Bennu.Component.DBEntityList
+use Bennu.Component.EntityList
 
-defrender type: DBEntityList,
+defrender type: EntityList,
           design: Design.default_coreui(),
           input: %Input{
             title: [title],
@@ -24,7 +24,7 @@ defrender type: DBEntityList,
         input: %Button.Input{
           onclick: [],
           form_name: [],
-          src: [Utils.push_path(conn, List.first(xs))],
+          href: [Utils.push_path(conn, List.first(xs))],
           text: ["Open"],
           icon: [FaIcon.eye()],
           bs_color: [BSColor.primary()]
@@ -60,7 +60,7 @@ defrender type: DBEntityList,
                   #
                   # TODO : think how it could be done better
                   #
-                  src: [Utils.push_path(conn, "new")],
+                  href: [Utils.push_path(conn, "new")],
                   text: ["Add"],
                   icon: [FaIcon.plus()],
                   bs_color: [BSColor.primary()]
@@ -79,7 +79,7 @@ defrender type: DBEntityList,
   }
 
   trivial_renderer(
-    for: DBEntityList,
+    for: EntityList,
     context: ctx,
     design: Design.default_coreui(),
     component: component

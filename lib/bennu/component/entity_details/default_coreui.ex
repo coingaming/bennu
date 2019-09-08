@@ -1,6 +1,6 @@
-use Bennu.Component.DBEntityDetails
+use Bennu.Component.EntityDetails
 
-defrender type: DBEntityDetails,
+defrender type: EntityDetails,
           design: Design.default_coreui(),
           input: %Input{
             parent_path: [parent_path],
@@ -28,7 +28,7 @@ defrender type: DBEntityDetails,
                 input: %Button.Input{
                   onclick: [],
                   form_name: [update_form_name],
-                  src: [],
+                  href: [],
                   text: ["Update"],
                   icon: [FaIcon.save()],
                   bs_color: [BSColor.primary()]
@@ -39,7 +39,7 @@ defrender type: DBEntityDetails,
                 input: %Button.Input{
                   onclick: [],
                   form_name: [delete_form_name],
-                  src: [],
+                  href: [],
                   text: ["Delete"],
                   icon: [FaIcon.ban()],
                   bs_color: [BSColor.danger()]
@@ -50,7 +50,7 @@ defrender type: DBEntityDetails,
                 input: %Button.Input{
                   onclick: [],
                   form_name: [],
-                  src: [parent_path],
+                  href: [parent_path],
                   text: ["Cancel"],
                   icon: [FaIcon.ban()],
                   bs_color: [BSColor.dark()]

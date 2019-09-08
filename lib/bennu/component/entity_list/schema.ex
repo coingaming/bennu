@@ -1,6 +1,6 @@
 use Bennu.Component
 
-defcomponent Component.DBEntityList do
+defcomponent Component.EntityList do
   input do
     title(
       min_qty: 1,

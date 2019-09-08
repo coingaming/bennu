@@ -1,6 +1,6 @@
-use Bennu.Component.DBEntityNew
+use Bennu.Component.EntityNew
 
-defrender type: DBEntityNew,
+defrender type: EntityNew,
           design: Design.default_coreui(),
           input: %Input{
             parent_path: [parent_path],
@@ -27,7 +27,7 @@ defrender type: DBEntityNew,
                 input: %Button.Input{
                   onclick: [],
                   form_name: [form_name],
-                  src: [],
+                  href: [],
                   text: ["Create"],
                   icon: [FaIcon.save()],
                   bs_color: [BSColor.primary()]
@@ -38,7 +38,7 @@ defrender type: DBEntityNew,
                 input: %Button.Input{
                   onclick: [],
                   form_name: [],
-                  src: [parent_path],
+                  href: [parent_path],
                   text: ["Cancel"],
                   icon: [FaIcon.ban()],
                   bs_color: [BSColor.dark()]

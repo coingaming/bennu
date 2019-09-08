@@ -1,6 +1,6 @@
 use Bennu.Component
 
-defcomponent Component.DBEntityNew do
+defcomponent Component.EntityNew do
   input do
     parent_path(
       min_qty: 1,
