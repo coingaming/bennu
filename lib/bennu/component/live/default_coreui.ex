@@ -2,7 +2,7 @@ use Bennu.Component.Live
 
 defrender type: Live,
           design: Design.default_coreui(),
-          input: %Input{module: [module], session: [%{} = session], container: [container]},
+          input: %Input{module: [module], session: [session], container: [container]},
           context: %RenderContext{index: index, socket: socket} do
   {
     fn %Input{} ->
