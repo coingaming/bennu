@@ -5,7 +5,8 @@ defmodule Bennu.Coreui.Icon do
     database_type: :bennu_coreui_icon,
     values: [
       :HOME,
-      :LAYERS
+      :LAYERS,
+      :USER
     ]
   )
 end
