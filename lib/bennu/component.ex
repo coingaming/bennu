@@ -108,14 +108,80 @@ defmodule Bennu.Component do
         end)
       end)
 
+    [enforced_input_schema, enforced_output_schema] =
+      [input_schema, output_schema]
+      |> Enum.map(fn %{} = spec ->
+        spec
+        |> Enum.flat_map(fn {k, %SchemaValue{min_qty: min_qty}} ->
+          min_qty
+          |> case do
+            _ when is_integer(min_qty) and min_qty > 0 -> [k]
+            _ when min_qty in [0, nil] -> []
+          end
+        end)
+      end)
+
+    type_keys =
+      [input: enforced_input_schema, output: enforced_output_schema]
+      |> Enum.map(fn
+        {k = :input, []} ->
+          {k,
+           quote do
+             %unquote(input_type){}
+           end}
+
+        {k = :output, []} ->
+          {k,
+           quote do
+             %unquote(output_type){}
+           end}
+
+        {k, [_ | _]} ->
+          {k, nil}
+      end)
+
+    enforced_type_keys =
+      type_keys
+      |> Enum.flat_map(fn
+        {k, nil} -> [k]
+        {_, _} -> []
+      end)
+
     quote location: :keep do
+      defmodule unquote(input_type) do
+        #
+        # TODO : GENERATE TYPE T PROPERLY???
+        #
+        @type t :: %__MODULE__{}
+        @enforce_keys unquote(enforced_input_schema)
+        defstruct unquote(
+                    input_spec
+                    |> Map.keys()
+                    |> Enum.map(&{&1, []})
+                  )
+      end
+
+      defmodule unquote(output_type) do
+        #
+        # TODO : GENERATE TYPE T PROPERLY???
+        #
+        @type t :: %__MODULE__{}
+        @enforce_keys unquote(enforced_output_schema)
+        defstruct unquote(
+                    output_spec
+                    |> Map.keys()
+                    |> Enum.map(&{&1, []})
+                  )
+      end
+
       defmodule unquote(type) do
         @type t :: %__MODULE__{
                 input: unquote(input_type).t(),
                 output: unquote(output_type).t()
               }
-        @enforce_keys [:input, :output]
-        defstruct @enforce_keys
+
+        @enforce_keys unquote(enforced_type_keys)
+        defstruct unquote(type_keys)
 
         defmacro __using__(_) do
           type = unquote(type)
@@ -139,24 +205,6 @@ defmodule Bennu.Component do
             require unquote(type), as: unquote(last_chunk)
           end
         end
-      end
-
-      defmodule unquote(input_type) do
-        #
-        # TODO : GENERATE TYPE T PROPERLY???
-        #
-        @type t :: %__MODULE__{}
-        @enforce_keys unquote(Map.keys(input_spec))
-        defstruct @enforce_keys
-      end
-
-      defmodule unquote(output_type) do
-        #
-        # TODO : GENERATE TYPE T PROPERLY???
-        #
-        @type t :: %__MODULE__{}
-        @enforce_keys unquote(Map.keys(output_spec))
-        defstruct @enforce_keys
       end
 
       defimpl Bennu.Componentable, for: unquote(type) do

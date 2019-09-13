@@ -13,8 +13,7 @@ defrender type: EntityList,
   #
 
   header = %ComponentList{
-    input: %ComponentList.Input{items: Enum.concat(input_header, [""])},
-    output: %ComponentList.Output{}
+    input: %ComponentList.Input{items: Enum.concat(input_header, [""])}
   }
 
   rows =
@@ -28,13 +27,11 @@ defrender type: EntityList,
           text: ["Open"],
           icon: [FaIcon.eye()],
           bs_color: [BSColor.primary()]
-        },
-        output: %Button.Output{}
+        }
       }
 
       %ComponentList{
-        input: %ComponentList.Input{items: Enum.concat(xs, [open_btn])},
-        output: %ComponentList.Output{}
+        input: %ComponentList.Input{items: Enum.concat(xs, [open_btn])}
       }
     end)
 
@@ -42,8 +39,7 @@ defrender type: EntityList,
     input: %Table.Input{
       header: [header],
       rows: rows
-    },
-    output: %Table.Output{}
+    }
   }
 
   component = %Card{
@@ -64,18 +60,15 @@ defrender type: EntityList,
                   text: ["Add"],
                   icon: [FaIcon.plus()],
                   bs_color: [BSColor.primary()]
-                },
-                output: %Button.Output{}
+                }
               }
             ]
-          },
-          output: %ComponentList.Output{}
+          }
         }
       ],
       body: [table],
       footer: []
-    },
-    output: %Card.Output{}
+    }
   }
 
   trivial_renderer(

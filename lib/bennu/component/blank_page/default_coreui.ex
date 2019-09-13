@@ -13,10 +13,7 @@ defrender type: BlankPage,
         context: ctx,
         design: Design.default_coreui(),
         env: %{},
-        component: %Flash{
-          input: %Flash.Input{},
-          output: %Flash.Output{}
-        },
+        component: %Flash{},
         independent_children?: false
       )
 

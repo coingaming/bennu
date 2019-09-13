@@ -14,8 +14,7 @@ defrender type: EntityNew,
     input: %Card.Input{
       header: [
         %ComponentList{
-          input: %ComponentList.Input{items: [title]},
-          output: %ComponentList.Output{}
+          input: %ComponentList.Input{items: [title]}
         }
       ],
       body: [live],
@@ -31,8 +30,7 @@ defrender type: EntityNew,
                   text: ["Create"],
                   icon: [FaIcon.save()],
                   bs_color: [BSColor.primary()]
-                },
-                output: %Button.Output{}
+                }
               },
               %Button{
                 input: %Button.Input{
@@ -42,16 +40,13 @@ defrender type: EntityNew,
                   text: ["Cancel"],
                   icon: [FaIcon.ban()],
                   bs_color: [BSColor.dark()]
-                },
-                output: %Button.Output{}
+                }
               }
             ]
-          },
-          output: %ComponentList.Output{}
+          }
         }
       ]
-    },
-    output: %Card.Output{}
+    }
   }
 
   {html, %{}} =
