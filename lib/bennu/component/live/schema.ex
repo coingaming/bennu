@@ -15,7 +15,7 @@ defcomponent Component.Live do
     )
 
     container(
-      min_qty: 1,
+      min_qty: nil,
       max_qty: 1,
       type: Any
     )

@@ -87,7 +87,6 @@ defmodule Bennu.LiveForm do
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
             module: [unquote(live_module)],
-            container: [{:div, []}],
             session: [
               %unquote(live_module){
                 form_name: form_name,
@@ -172,7 +171,6 @@ defmodule Bennu.LiveForm do
         live = %Bennu.Component.Live{
           input: %Bennu.Component.Live.Input{
             module: [unquote(live_module)],
-            container: [{:div, []}],
             session: [
               %unquote(live_module){
                 model: unquote(model),
