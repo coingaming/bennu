@@ -9,7 +9,7 @@ defrender type: Live,
       socket
       |> Phoenix.LiveView.live_render(
         module,
-        child_id: index,
+        id: index,
         session: session,
         container:
           case mcontainer do
