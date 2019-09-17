@@ -13,13 +13,14 @@ defrender type: Page,
                   breadcrumb: mbreadcrumb,
                   main: main
                 } ->
-    {flash, %{}} =
+    {flash, %{}, %{}} =
       Engine.render(
         context: ctx,
         design: Design.default_coreui(),
         env: %{},
         component: %Flash{},
-        independent_children?: false
+        independent_children?: false,
+        dependency_tree: %{}
       )
 
     assigns = %{

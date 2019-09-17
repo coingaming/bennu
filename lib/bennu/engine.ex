@@ -119,7 +119,8 @@ defmodule Bennu.Engine do
         design: design,
         env: %{} = env,
         component: component,
-        independent_children?: independent_children?
+        independent_children?: independent_children?,
+        dependency_tree: %{} = dependency_tree
       )
       when DesignMeta.is_type(design) do
     input_schema = Component.input_schema(it: component)
@@ -147,89 +148,136 @@ defmodule Bennu.Engine do
         component: component
       )
 
-    {children, new_env1} =
+    {children, new_env1, dependency_tree} =
       render_children(
         context: ctx,
         design: design,
         env: new_env0,
         input: input,
         input_schema: input_schema,
-        independent_children?: independent_children?
+        independent_children?: independent_children?,
+        dependency_tree: dependency_tree
       )
 
-    {renderer.(children), new_env1}
+    {renderer.(children), new_env1, dependency_tree}
   end
 
   defp depends_on?(
          left: %_{input: %_{} = left_input} = left,
          right: %_{input: %_{} = right_input, output: %_{} = right_output} = right,
-         design: design
+         design: design,
+         dependency_tree: %{} = dependency_tree
        )
        when DesignMeta.is_type(design) do
-    Component.is_component?(it: left, design: design)
-    |> Kernel.and(Component.is_component?(it: right, design: design))
+    dependency_tree
+    |> get_in([left, right])
     |> case do
       true ->
-        #
-        # TODO : maybe validate types according input/output schema
-        #
-
-        # get direct right output Env keys
-        right_output_mapset =
-          right_output
-          |> Map.from_struct()
-          |> Map.values()
-          |> Enum.reduce(MapSet.new(), fn %EnvRef{key: env_key}, acc ->
-            MapSet.put(acc, env_key)
-          end)
-
-        left_input
-        |> Map.from_struct()
-        |> Map.values()
-        |> Enum.any?(fn
-          # direct left input depends on direct right output?
-          %EnvRef{key: env_key} ->
-            right_output_mapset
-            |> MapSet.member?(env_key)
-
-          # left childs are dependent on right?
-          hardcoded when is_list(hardcoded) ->
-            hardcoded
-            |> Enum.any?(&depends_on?(left: &1, right: right, design: design))
-        end)
-        |> case do
-          true ->
-            true
-
-          false ->
-            # left depends on right childs?
-            right_input
-            |> Map.from_struct()
-            |> Map.values()
-            |> Stream.filter(fn
-              %EnvRef{} -> false
-              hardcoded when is_list(hardcoded) -> true
-            end)
-            |> Enum.any?(fn hardcoded ->
-              hardcoded
-              |> Enum.any?(&depends_on?(left: left, right: &1, design: design))
-            end)
-        end
+        {true, dependency_tree}
 
       false ->
-        false
+        {false, dependency_tree}
+
+      nil ->
+        Component.is_component?(it: left, design: design)
+        |> Kernel.and(Component.is_component?(it: right, design: design))
+        |> case do
+          true ->
+            #
+            # TODO : maybe validate types according input/output schema
+            #
+
+            # get direct right output Env keys
+            right_output_mapset =
+              right_output
+              |> Map.from_struct()
+              |> Map.values()
+              |> Enum.reduce(MapSet.new(), fn %EnvRef{key: env_key}, acc ->
+                MapSet.put(acc, env_key)
+              end)
+
+            left_input
+            |> Map.from_struct()
+            |> Map.values()
+            |> Enum.reduce_while({false, dependency_tree}, fn
+              # direct left input depends on direct right output?
+              %EnvRef{key: env_key}, {false, dependency_tree} ->
+                right_output_mapset
+                |> MapSet.member?(env_key)
+                |> case do
+                  true -> {:halt, {true, dependency_tree}}
+                  false -> {:cont, {false, dependency_tree}}
+                end
+
+              # left childs are dependent on right?
+              hardcoded, {false, dependency_tree} when is_list(hardcoded) ->
+                hardcoded
+                |> Enum.reduce_while({false, dependency_tree}, fn left,
+                                                                  {false, dependency_tree} ->
+                  depends_on?(
+                    left: left,
+                    right: right,
+                    design: design,
+                    dependency_tree: dependency_tree
+                  )
+                  |> case do
+                    res = {true, %{}} -> {:halt, res}
+                    res = {false, %{}} -> {:cont, res}
+                  end
+                end)
+                |> case do
+                  res = {true, %{}} -> {:halt, res}
+                  res = {false, %{}} -> {:cont, res}
+                end
+            end)
+            |> case do
+              res = {true, %{}} ->
+                res
+
+              {false, dependency_tree} ->
+                # left depends on right childs?
+                right_input
+                |> Map.from_struct()
+                |> Map.values()
+                |> Enum.flat_map(fn
+                  %EnvRef{} -> []
+                  hardcoded when is_list(hardcoded) -> hardcoded
+                end)
+                |> Enum.reduce_while(
+                  {false, dependency_tree},
+                  fn right, {false, dependency_tree} ->
+                    depends_on?(
+                      left: left,
+                      right: right,
+                      design: design,
+                      dependency_tree: dependency_tree
+                    )
+                    |> case do
+                      res = {true, %{}} -> {:halt, res}
+                      res = {false, %{}} -> {:cont, res}
+                    end
+                  end
+                )
+            end
+
+          false ->
+            {false, dependency_tree}
+        end
     end
+    |> add_dependency(left, right)
   end
 
-  defp depends_on?(left: _, right: _, design: _) do
-    false
+  defp depends_on?(left: left, right: right, design: _, dependency_tree: dependency_tree = %{}) do
+    {false, dependency_tree}
+    |> add_dependency(left, right)
   end
 
   defp can_render?(
          it: it,
          parent_input: %_{} = parent_input,
          design: design,
-         independent_children?: independent_children?
+         independent_children?: independent_children?,
+         dependency_tree: %{} = dependency_tree
        )
        when DesignMeta.is_type(design) do
     Component.is_component?(
@@ -238,23 +286,38 @@ defmodule Bennu.Engine do
     )
     |> case do
       true when independent_children? == true ->
-        true
+        {true, dependency_tree}
 
       true ->
         parent_input
         |> Map.from_struct()
         |> Map.values()
-        |> Enum.all?(fn
-          %EnvRef{} ->
-            true
+        |> Enum.reduce_while({true, dependency_tree}, fn
+          %EnvRef{}, {true, dependency_tree} ->
+            {:cont, {true, dependency_tree}}
 
-          hardcoded when is_list(hardcoded) ->
+          hardcoded, {true, dependency_tree} when is_list(hardcoded) ->
             hardcoded
-            |> Enum.all?(&(not depends_on?(left: it, right: &1, design: design)))
+            |> Enum.reduce_while({false, dependency_tree}, fn right, {_, dependency_tree} ->
+              depends_on?(
+                left: it,
+                right: right,
+                design: design,
+                dependency_tree: dependency_tree
+              )
+              |> case do
+                res = {true, %{}} -> {:halt, res}
+                res = {false, %{}} -> {:cont, res}
+              end
+            end)
+            |> case do
+              {true, dependency_tree} -> {:halt, {false, dependency_tree}}
+              {false, dependency_tree} -> {:cont, {true, dependency_tree}}
+            end
         end)
 
       false ->
-        false
+        {false, dependency_tree}
     end
   end
 
@@ -280,26 +343,39 @@ defmodule Bennu.Engine do
                 env: %{} = env,
                 input: %_{} = input,
                 input_schema: %{} = input_schema,
-                independent_children?: independent_children?
+                independent_children?: independent_children?,
+                dependency_tree: %{} = dependency_tree
               )
               when DesignMeta.is_type(design) do
     input_schema
-    |> Enum.reduce({input, env}, fn {key, %SchemaValue{}}, {%_{} = acc, %{} = env}
-                                    when is_atom(key) ->
-      {new_comps, %{} = new_env} =
+    |> Enum.reduce({input, env, dependency_tree}, fn {key, %SchemaValue{}},
+                                                     {
+                                                       %_{} = acc,
+                                                       %{} = env,
+                                                       %{} = dependency_tree
+                                                     }
+                                                     when is_atom(key) ->
+      {new_comps, %{} = new_env, %{} = dependency_tree} =
         acc
         |> Map.fetch!(key)
         |> Stream.with_index()
         |> Enum.reverse()
-        |> Enum.reduce({[], env}, fn {x, index}, {acc, %{} = env} when is_list(acc) ->
+        |> Enum.reduce({[], env, dependency_tree}, fn {x, index},
+                                                      {
+                                                        acc,
+                                                        %{} = env,
+                                                        %{} = dependency_tree
+                                                      }
+                                                      when is_list(acc) ->
           can_render?(
             it: x,
             parent_input: input,
             design: design,
-            independent_children?: independent_children?
+            independent_children?: independent_children?,
+            dependency_tree: dependency_tree
           )
           |> case do
-            true ->
+            {true, dependency_tree} ->
               new_ctx = %RenderContext{
                 ctx
                 | parent: ctx,
@@ -308,41 +384,47 @@ defmodule Bennu.Engine do
                   index: index
               }
 
-              {html, %{} = new_env} =
+              {html, %{} = new_env, %{} = dependency_tree} =
                 render(
                   context: new_ctx,
                   design: design,
                   env: env,
                   component: x,
-                  independent_children?: independent_children?
+                  independent_children?: independent_children?,
+                  dependency_tree: dependency_tree
                 )
 
-              {[html | acc], new_env}
+              {[html | acc], new_env, dependency_tree}
 
-            false ->
-              {[x | acc], env}
+            {false, dependency_tree} ->
+              {[x | acc], env, dependency_tree}
           end
         end)
 
-      {Map.put(acc, key, new_comps), new_env}
+      {Map.put(acc, key, new_comps), new_env, dependency_tree}
     end)
     |> case do
-      {^input, %{} = new_env} ->
+      {^input, %{} = new_env, dependency_tree} ->
         :ok = assert_rendered!(rendered_input: input, design: design)
-        {input, new_env}
+        {input, new_env, dependency_tree}
 
-      {%_{} = new_input, %{} = new_env} when independent_children? == true ->
-        {new_input, new_env}
+      {%_{} = new_input, %{} = new_env, dependency_tree} when independent_children? == true ->
+        {new_input, new_env, dependency_tree}
 
-      {%_{} = new_input, %{} = new_env} ->
+      {%_{} = new_input, %{} = new_env, dependency_tree} ->
         render_children(
           context: ctx,
           design: design,
           env: new_env,
           input: new_input,
           input_schema: input_schema,
-          independent_children?: independent_children?
+          independent_children?: independent_children?,
+          dependency_tree: dependency_tree
         )
     end
+  end
+
+  Kernel.defp add_dependency({is, %{} = dependency_tree}, left, right) when is_boolean(is) do
+    {is, Map.update(dependency_tree, left, %{right => is}, &Map.put(&1, right, is))}
   end
 end

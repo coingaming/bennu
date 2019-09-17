@@ -60,13 +60,14 @@ defrender type: EntityDetails,
     }
   }
 
-  {html, %{}} =
+  {html, %{}, %{}} =
     Engine.render(
       context: ctx,
       design: Design.default_coreui(),
       env: %{},
       component: component,
-      independent_children?: true
+      independent_children?: true,
+      dependency_tree: %{}
     )
 
   renderer = fn %Input{} ->

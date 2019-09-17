@@ -279,13 +279,14 @@ defmodule Bennu.Component do
 
   defmacron trivial_renderer(for: mod, context: ctx, design: design, component: component) do
     quote location: :keep do
-      {html, %{}} =
+      {html, %{}, %{}} =
         Bennu.Engine.render(
           context: unquote(ctx),
           design: unquote(design),
           env: %{},
           component: unquote(component),
-          independent_children?: true
+          independent_children?: true,
+          dependency_tree: %{}
         )
 
       {fn %unquote(mod).Input{} -> html end, %unquote(mod).Output{}}

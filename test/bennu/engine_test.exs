@@ -42,7 +42,7 @@ defmodule Bennu.EngineTest do
         output: %Column.Output{}
       }
 
-      assert {%Phoenix.LiveView.Rendered{}, %{}} = default_render(component)
+      assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
     end)
   end
 
@@ -56,7 +56,7 @@ defmodule Bennu.EngineTest do
         output: %Column.Output{}
       }
 
-      assert {%Phoenix.LiveView.Rendered{}, %{}} = default_render(component)
+      assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
     end)
   end
 
@@ -70,7 +70,7 @@ defmodule Bennu.EngineTest do
         output: %Column.Output{}
       }
 
-      assert {%Phoenix.LiveView.Rendered{}, %{}} = default_render(component)
+      assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
     end)
   end
 
@@ -87,7 +87,7 @@ defmodule Bennu.EngineTest do
         output: %Column.Output{}
       }
 
-      assert {%Phoenix.LiveView.Rendered{}, %{}} = default_render(component)
+      assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
     end)
   end
 
@@ -169,7 +169,8 @@ defmodule Bennu.EngineTest do
       design: Design.default_coreui(),
       context: default_ctx(component),
       env: %{},
-      independent_children?: false
+      independent_children?: false,
+      dependency_tree: %{}
     )
   end
 end
