@@ -14,16 +14,18 @@ defrender type: Breadcrumb,
       {new_path, [new_path | acc]}
     end)
 
+  named_links =
+    links
+    |> Enum.reverse()
+    |> Enum.map(fn x -> {x, x |> Path.split() |> List.last()} end)
+
   #
   # TODO : proper breadcrumb names for pages
   #
   renderer = fn %Input{} ->
     assigns = %{
       socket: socket,
-      links:
-        links
-        |> Enum.reverse()
-        |> Enum.map(fn x -> {x, x |> Path.split() |> List.last()} end)
+      links: [{"/", "index"} | named_links]
     }
 
     ~l"""
