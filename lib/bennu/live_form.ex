@@ -5,6 +5,7 @@ defmodule Bennu.LiveForm do
     quote location: :keep do
       use Phoenix.LiveView
       use PhoenixComponents.View, namespace: unquote(web_module).Components
+      use Bennu.PropagateRedirect
 
       import_components(
         [
@@ -261,7 +262,7 @@ defmodule Bennu.LiveForm do
               :stop,
               socket
               |> put_flash(:info, unquote(msg))
-              |> redirect(to: parent_path)
+              |> propagate_redirect(to: parent_path)
             }
 
           {:error, %Ecto.Changeset{} = cs} ->
@@ -308,7 +309,7 @@ defmodule Bennu.LiveForm do
               :stop,
               socket
               |> put_flash(:warn, unquote(msg))
-              |> redirect(to: parent_path)
+              |> propagate_redirect(to: parent_path)
             }
 
           {:error, %Ecto.Changeset{} = cs} ->
@@ -365,7 +366,7 @@ defmodule Bennu.LiveForm do
               :stop,
               socket
               |> put_flash(:info, unquote(msg))
-              |> redirect(to: parent_path)
+              |> propagate_redirect(to: parent_path)
             }
 
           {:error, %Ecto.Changeset{} = cs} ->
