@@ -13,7 +13,7 @@ defmodule Bennu.PropagateRedirect do
              params
            ) do
         _ = send(pid, {:propagate_redirect, params})
-        socket
+        {:noreply, socket}
       end
 
       def handle_info(

@@ -258,12 +258,9 @@ defmodule Bennu.LiveForm do
         |> unquote(type).create()
         |> case do
           {:ok, %unquote(type){}} ->
-            {
-              :stop,
-              socket
-              |> put_flash(:info, unquote(msg))
-              |> propagate_redirect(to: parent_path)
-            }
+            socket
+            |> put_flash(:info, unquote(msg))
+            |> propagate_redirect(to: parent_path)
 
           {:error, %Ecto.Changeset{} = cs} ->
             {
@@ -305,12 +302,9 @@ defmodule Bennu.LiveForm do
         |> unquote(type).delete()
         |> case do
           {:ok, %unquote(type){}} ->
-            {
-              :stop,
-              socket
-              |> put_flash(:warn, unquote(msg))
-              |> propagate_redirect(to: parent_path)
-            }
+            socket
+            |> put_flash(:warn, unquote(msg))
+            |> propagate_redirect(to: parent_path)
 
           {:error, %Ecto.Changeset{} = cs} ->
             {
@@ -362,12 +356,9 @@ defmodule Bennu.LiveForm do
         |> unquote(type).update(params)
         |> case do
           {:ok, %unquote(type){}} ->
-            {
-              :stop,
-              socket
-              |> put_flash(:info, unquote(msg))
-              |> propagate_redirect(to: parent_path)
-            }
+            socket
+            |> put_flash(:info, unquote(msg))
+            |> propagate_redirect(to: parent_path)
 
           {:error, %Ecto.Changeset{} = cs} ->
             {
