@@ -1,5 +1,5 @@
 defmodule Bennu.Ecto.ElixirType do
-  @behaviour Ecto.Type
+  use Ecto.Type
   @kernel_types [
     # scalars
     Atom,

@@ -1,5 +1,5 @@
 defmodule Bennu.Ecto.ElixirTerm do
-  @behaviour Ecto.Type
+  use Ecto.Type
   use Bennu.Utils
 
   def type, do: :string
