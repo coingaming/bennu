@@ -4,10 +4,6 @@ defmodule Bennu.StdEnv do
   envs = [
     %Env{name: "page_title", type: BitString},
     %Env{name: "page_meta_keywords", type: BitString},
-    %Env{name: "page_sidebar_exists", type: Atom},
-    %Env{name: "page_header", type: Bennu.Component.PageHeader},
-    %Env{name: "page_sidebar", type: Bennu.Component.PageSidebar},
-    %Env{name: "page_main", type: Any}
   ]
 
   envs

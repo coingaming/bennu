@@ -21,21 +21,16 @@ defmodule Bennu.Component do
 
   defmacro __using__(_) do
     quote do
-      require Bennu.Coreui.Icon.Items, as: CoreuiIcon
-      require Bennu.Coreui.Icon.Meta, as: CoreuiIconMeta
       require Bennu.Design.Items, as: Design
       require Bennu.Design.Meta, as: DesignMeta
       require Bennu.Engine, as: Engine
       require Bennu.Env.OnDuplicate.Items, as: OnDuplicate
       require Bennu.Env.Ref, as: EnvRef
-      require Bennu.FontAwesome.Icon.Items, as: FaIcon
       require Bennu.RenderContext, as: RenderContext
       require Bennu.Utils, as: Utils
       require Ecto.Changeset, as: Changeset
       require Phoenix.LiveView.Socket, as: Socket
       require unquote(__MODULE__), as: Component
-      import Bennu.LiveForm
-      import Bennu.Sigil
       import PhoenixSlime
       import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, trivial_renderer: 1]
       alias Component.Column

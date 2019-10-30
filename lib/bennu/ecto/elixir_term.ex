@@ -1,6 +1,6 @@
 defmodule Bennu.Ecto.ElixirTerm do
   use Ecto.Type
-  use Bennu.Utils
+  require Bennu.Utils, as: Utils
 
   def type, do: :string
 
