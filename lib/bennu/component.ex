@@ -21,8 +21,6 @@ defmodule Bennu.Component do
 
   defmacro __using__(_) do
     quote do
-      require Bennu.Bootstrap.Color.Items, as: BSColor
-      require Bennu.Bootstrap.Color.Meta, as: BSColorMeta
       require Bennu.Coreui.Icon.Items, as: CoreuiIcon
       require Bennu.Coreui.Icon.Meta, as: CoreuiIconMeta
       require Bennu.Design.Items, as: Design
@@ -40,27 +38,7 @@ defmodule Bennu.Component do
       import Bennu.Sigil
       import PhoenixSlime
       import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, trivial_renderer: 1]
-      alias Component.BOIndex
-      alias Component.Brand
-      alias Component.Breadcrumb
-      alias Component.Button
-      alias Component.Card
       alias Component.Column
-      alias Component.ComponentList
-      alias Component.EntityDetails
-      alias Component.EntityList
-      alias Component.EntityNew
-      alias Component.Flash
-      alias Component.Game
-      alias Component.Grid
-      alias Component.Live
-      alias Component.Markdown
-      alias Component.NavLink
-      alias Component.BlankPage
-      alias Component.Page
-      alias Component.PageHeader
-      alias Component.PageSidebar
-      alias Component.Table
     end
   end
 
