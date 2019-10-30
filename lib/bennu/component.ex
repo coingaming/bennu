@@ -121,24 +121,16 @@ defmodule Bennu.Component do
         end)
       end)
 
-    type_keys =
-      [input: enforced_input_schema, output: enforced_output_schema]
-      |> Enum.map(fn
-        {k = :input, []} ->
-          {k,
-           quote do
-             %unquote(input_type){}
-           end}
-
-        {k = :output, []} ->
-          {k,
-           quote do
-             %unquote(output_type){}
-           end}
-
-        {k, [_ | _]} ->
-          {k, nil}
-      end)
+    type_keys = [
+      input:
+        quote do
+          struct(unquote(input_type))
+        end,
+      output:
+        quote do
+          struct(unquote(output_type))
+        end
+    ]
 
     enforced_type_keys =
       type_keys
