@@ -5,16 +5,16 @@ defmodule Bennu.Ecto.ElixirType do
     # scalars
     Atom,
     BitString,
-    Float,
-    Function,
+    # Float,
+    # Function,
     Integer,
-    PID,
-    Port,
-    Reference,
+    # PID,
+    # Port,
+    # Reference,
     # collections
-    Tuple,
-    List,
-    Map,
+    # Tuple,
+    # List,
+    # Map,
     # special case
     Any
   ]

@@ -120,9 +120,20 @@ defmodule Bennu.Component do
         @type t :: %__MODULE__{}
         @enforce_keys unquote(enforced_input_schema)
         defstruct unquote(
-                    input_spec
-                    |> Map.keys()
-                    |> Enum.map(&{&1, []})
+                    input_schema
+                    |> Enum.map(fn
+                      {key, %SchemaValue{min_qty: min_qty, type: Integer}} when min_qty > 0 ->
+                        {key, List.duplicate(0, min_qty)}
+
+                      {key, %SchemaValue{min_qty: min_qty, type: BitString}} when min_qty > 0 ->
+                        {key, List.duplicate("", min_qty)}
+
+                      {key, %SchemaValue{min_qty: min_qty, type: Atom}} when min_qty > 0 ->
+                        {key, List.duplicate(false, min_qty)}
+
+                      {key, _} ->
+                        {key, []}
+                    end)
                   )
       end
 
