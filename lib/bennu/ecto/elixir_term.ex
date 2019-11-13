@@ -4,22 +4,16 @@ defmodule Bennu.Ecto.ElixirTerm do
 
   def type, do: :string
 
-  def cast(x) do
+  def cast(x) when is_binary(x) do
     x
-    |> dump()
+    |> load()
     |> case do
-      {:ok, _} ->
-        {
-          :ok,
-          x
-          |> Code.format_string!()
-          |> Enum.join()
-        }
-
-      :error ->
-        :error
+      {:ok, loaded} -> {:ok, loaded}
+      :error -> {:ok, x}
     end
   end
+
+  def cast(x), do: {:ok, x}
 
   def load(x) when is_binary(x) do
     x
@@ -37,15 +31,6 @@ defmodule Bennu.Ecto.ElixirTerm do
 
       {:error, _} ->
         :error
-    end
-  end
-
-  def dump(x) when is_binary(x) do
-    x
-    |> load()
-    |> case do
-      {:ok, _} -> {:ok, x}
-      :error -> :error
     end
   end
 
