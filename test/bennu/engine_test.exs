@@ -38,7 +38,7 @@ defmodule Bennu.EngineTest do
     [cs, Enum.reverse(cs)]
     |> Enum.each(fn rows ->
       component = %Column{
-        input: %Column.Input{rows: rows},
+        input: %Column.Input{flex: [true], title: ["ok"], width: [123], rows: rows},
         output: %Column.Output{}
       }
 
@@ -52,7 +52,7 @@ defmodule Bennu.EngineTest do
     [cs, Enum.reverse(cs)]
     |> Enum.each(fn rows ->
       component = %Column{
-        input: %Column.Input{rows: rows},
+        input: %Column.Input{flex: [true], title: ["ok"], width: [123], rows: rows},
         output: %Column.Output{}
       }
 
@@ -66,7 +66,7 @@ defmodule Bennu.EngineTest do
     [cs, Enum.reverse(cs)]
     |> Enum.each(fn rows ->
       component = %Column{
-        input: %Column.Input{rows: rows},
+        input: %Column.Input{flex: [true], title: ["ok"], width: [123], rows: rows},
         output: %Column.Output{}
       }
 
@@ -83,7 +83,7 @@ defmodule Bennu.EngineTest do
     [cs, Enum.reverse(cs)]
     |> Enum.each(fn rows ->
       component = %Column{
-        input: %Column.Input{rows: rows},
+        input: %Column.Input{flex: [true], title: ["ok"], width: [123], rows: rows},
         output: %Column.Output{}
       }
 
@@ -133,6 +133,7 @@ defmodule Bennu.EngineTest do
   test "circular dependency in C5" do
     component = %Column{
       input: %Column.Input{
+        flex: [true], title: ["ok"], width: [123],
         rows: [
           %C5{
             input: %C5.Input{buf: %EnvRef{key: @env_key}},
