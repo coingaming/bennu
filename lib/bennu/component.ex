@@ -297,8 +297,8 @@ defmodule Bennu.Component do
     #
     # TODO : try-catch with more detailed reraise
     #
-    try do
-      type =
+    type =
+      try do
         [
           Bennu,
           Renderable,
@@ -307,10 +307,10 @@ defmodule Bennu.Component do
           design |> Bennu.Utils.enum2module()
         ]
         |> Module.safe_concat()
-    catch
-      _ ->
-        raise "component #{inspect(short_type)} not implemented for #{inspect(design)}"
-    end
+      catch
+        _ ->
+          raise "component #{inspect(short_type)} not implemented for #{inspect(design)}"
+      end
 
     type.__struct__()
   end
