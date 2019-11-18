@@ -309,7 +309,7 @@ defmodule Bennu.Component do
         |> Module.safe_concat()
       rescue
         _ ->
-          raise "component #{inspect(short_type)} not implemented for #{inspect(design)}"
+          raise "component #{inspect(short_type)} not implemented for #{inspect(design)} design"
       end
 
     type.__struct__()
