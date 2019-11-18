@@ -1,5 +1,4 @@
 defmodule Bennu.Utils do
-
   def enum2module(x) when is_atom(x) do
     x |> Atom.to_string() |> String.downcase() |> Macro.camelize()
   end

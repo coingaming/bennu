@@ -7,11 +7,11 @@ defmodule Bennu.EngineTest do
   setup do
     c0 = %C0{
       input: %C0.Input{},
-      output: %C0.Output{foo: %EnvRef{key: @env_key, on_duplicate: OnDuplicate.union()}}
+      output: %C0.Output{foo: %EnvRef{key: @env_key, on_duplicate: OnDuplicate.replace()}}
     }
 
     c1 = %C1{
-      input: %C1.Input{bar: %EnvRef{key: @env_key}},
+      input: %C1.Input{bar: [%EnvRef{key: @env_key}]},
       output: %C1.Output{}
     }
 
@@ -133,10 +133,12 @@ defmodule Bennu.EngineTest do
   test "circular dependency in C5" do
     component = %Column{
       input: %Column.Input{
-        flex: [true], title: ["ok"], width: [123],
+        flex: [true],
+        title: ["ok"],
+        width: [123],
         rows: [
           %C5{
-            input: %C5.Input{buf: %EnvRef{key: @env_key}},
+            input: %C5.Input{buf: [%EnvRef{key: @env_key}]},
             output: %C5.Output{bif: %EnvRef{key: @env_key}}
           }
         ]
@@ -169,7 +171,7 @@ defmodule Bennu.EngineTest do
       component: component,
       design: Design.default_coreui(),
       context: default_ctx(component),
-      env: %{},
+      env: %{"article_id" => 123},
       independent_children?: false,
       dependency_tree: %{}
     )

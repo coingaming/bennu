@@ -55,16 +55,20 @@ defmodule Bennu.Engine do
       value =
         raw_input
         |> Map.fetch!(key)
-        |> case do
+        |> Enum.flat_map(fn
           %EnvRef{key: env_key} ->
             #
             # TODO : in Env maybe use not just key, but type as well (how to deal with Any???)
             #
-            Map.get(env, env_key) || []
+            case Map.get(env, env_key) do
+              nil -> []
+              x when is_list(x) -> x
+              x -> [x]
+            end
 
           literal ->
-            literal
-        end
+            [literal]
+        end)
 
       :ok = validate_type!(key: key, value: value, schema_value: schema_value)
       Map.put(input, key, value)
@@ -200,30 +204,30 @@ defmodule Bennu.Engine do
             |> Map.from_struct()
             |> Map.values()
             |> Enum.reduce_while({false, dependency_tree}, fn
-              # direct left input depends on direct right output?
-              %EnvRef{key: env_key}, {false, dependency_tree} ->
-                right_output_mapset
-                |> MapSet.member?(env_key)
-                |> case do
-                  true -> {:halt, {true, dependency_tree}}
-                  false -> {:cont, {false, dependency_tree}}
-                end
-
               # left childs are dependent on right?
               hardcoded, {false, dependency_tree} when is_list(hardcoded) ->
                 hardcoded
-                |> Enum.reduce_while({false, dependency_tree}, fn left,
-                                                                  {false, dependency_tree} ->
-                  depends_on?(
-                    left: left,
-                    right: right,
-                    design: design,
-                    dependency_tree: dependency_tree
-                  )
-                  |> case do
-                    res = {true, %{}} -> {:halt, res}
-                    res = {false, %{}} -> {:cont, res}
-                  end
+                |> Enum.reduce_while({false, dependency_tree}, fn
+                  # direct left input depends on direct right output?
+                  %EnvRef{key: env_key}, {false, dependency_tree} ->
+                    right_output_mapset
+                    |> MapSet.member?(env_key)
+                    |> case do
+                      true -> {:halt, {true, dependency_tree}}
+                      false -> {:cont, {false, dependency_tree}}
+                    end
+
+                  left, {false, dependency_tree} ->
+                    depends_on?(
+                      left: left,
+                      right: right,
+                      design: design,
+                      dependency_tree: dependency_tree
+                    )
+                    |> case do
+                      res = {true, %{}} -> {:halt, res}
+                      res = {false, %{}} -> {:cont, res}
+                    end
                 end)
                 |> case do
                   res = {true, %{}} -> {:halt, res}
@@ -239,23 +243,23 @@ defmodule Bennu.Engine do
                 right_input
                 |> Map.from_struct()
                 |> Map.values()
-                |> Enum.flat_map(fn
-                  %EnvRef{} -> []
-                  hardcoded when is_list(hardcoded) -> hardcoded
-                end)
                 |> Enum.reduce_while(
                   {false, dependency_tree},
-                  fn right, {false, dependency_tree} ->
-                    depends_on?(
-                      left: left,
-                      right: right,
-                      design: design,
-                      dependency_tree: dependency_tree
-                    )
-                    |> case do
-                      res = {true, %{}} -> {:halt, res}
-                      res = {false, %{}} -> {:cont, res}
-                    end
+                  fn
+                    %EnvRef{}, res ->
+                      {:cont, res}
+
+                    right, {false, dependency_tree} ->
+                      depends_on?(
+                        left: left,
+                        right: right,
+                        design: design,
+                        dependency_tree: dependency_tree
+                      )
+                      |> case do
+                        res = {true, %{}} -> {:halt, res}
+                        res = {false, %{}} -> {:cont, res}
+                      end
                   end
                 )
             end
@@ -293,22 +297,23 @@ defmodule Bennu.Engine do
         |> Map.from_struct()
         |> Map.values()
         |> Enum.reduce_while({true, dependency_tree}, fn
-          %EnvRef{}, {true, dependency_tree} ->
-            {:cont, {true, dependency_tree}}
-
           hardcoded, {true, dependency_tree} when is_list(hardcoded) ->
             hardcoded
-            |> Enum.reduce_while({false, dependency_tree}, fn right, {_, dependency_tree} ->
-              depends_on?(
-                left: it,
-                right: right,
-                design: design,
-                dependency_tree: dependency_tree
-              )
-              |> case do
-                res = {true, %{}} -> {:halt, res}
-                res = {false, %{}} -> {:cont, res}
-              end
+            |> Enum.reduce_while({false, dependency_tree}, fn
+              %EnvRef{}, res ->
+                {:cont, res}
+
+              right, {_, dependency_tree} ->
+                depends_on?(
+                  left: it,
+                  right: right,
+                  design: design,
+                  dependency_tree: dependency_tree
+                )
+                |> case do
+                  res = {true, %{}} -> {:halt, res}
+                  res = {false, %{}} -> {:cont, res}
+                end
             end)
             |> case do
               {true, dependency_tree} -> {:halt, {false, dependency_tree}}
