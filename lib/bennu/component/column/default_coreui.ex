@@ -10,7 +10,11 @@ defrender type: Column,
     ~l"""
     .col
       = for x <- @rows do
-        .row = x
+        .row
+          = if is_binary(x) do
+            = Phoenix.HTML.raw(x)
+          - else
+            = x
     """
   end
 
