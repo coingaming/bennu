@@ -307,7 +307,7 @@ defmodule Bennu.Component do
           design |> Bennu.Utils.enum2module()
         ]
         |> Module.safe_concat()
-      catch
+      rescue
         _ ->
           raise "component #{inspect(short_type)} not implemented for #{inspect(design)}"
       end
