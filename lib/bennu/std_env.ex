@@ -3,6 +3,7 @@ defmodule Bennu.StdEnv do
 
   envs = [
     %Env{name: "page_title", type: BitString},
+    %Env{name: "page_meta_description", type: BitString},
     %Env{name: "page_meta_keywords", type: BitString}
   ]
 

@@ -43,7 +43,6 @@ defmodule Bennu.MixProject do
       {:gen_enum, "~> 0.4"},
       {:typable, "~> 0.3"},
       {:defnamed, "~> 0.1.3"},
-      {:backoffice_core, git: "git@github.com:coingaming/backoffice_core.git"},
       {:selectable, github: "coingaming/selectable"},
       {:readable, "~> 0.1.0"},
       {:meme, "~> 0.2"},
