@@ -47,6 +47,7 @@ defmodule Bennu.MixProject do
       {:readable, "~> 0.1.0"},
       {:meme, "~> 0.2"},
       {:earmark, "~> 1.3.5"},
+      {:phoenix_slime, github: "coingaming/phoenix_slime", branch: "coingaming"},
       # dev tools
       {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
