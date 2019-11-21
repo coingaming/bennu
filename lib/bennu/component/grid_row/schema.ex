@@ -1,11 +1,11 @@
 use Bennu.Component
 
-defcomponent Component.Column do
+defcomponent Component.GridRow do
   input do
-    rows(
+    columns(
       min_qty: nil,
       max_qty: nil,
-      type: Any
+      type: Component.GridColumn
     )
   end
 

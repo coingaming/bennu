@@ -36,10 +36,10 @@ defmodule Bennu.EngineTest do
     cs = [c1, c0]
 
     [cs, Enum.reverse(cs)]
-    |> Enum.each(fn rows ->
-      component = %Column{
-        input: %Column.Input{rows: rows},
-        output: %Column.Output{}
+    |> Enum.each(fn content ->
+      component = %GridColumn{
+        input: %GridColumn.Input{content: content},
+        output: %GridColumn.Output{}
       }
 
       assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
@@ -50,10 +50,10 @@ defmodule Bennu.EngineTest do
     cs = [c2, c0]
 
     [cs, Enum.reverse(cs)]
-    |> Enum.each(fn rows ->
-      component = %Column{
-        input: %Column.Input{rows: rows},
-        output: %Column.Output{}
+    |> Enum.each(fn content ->
+      component = %GridColumn{
+        input: %GridColumn.Input{content: content},
+        output: %GridColumn.Output{}
       }
 
       assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
@@ -64,10 +64,10 @@ defmodule Bennu.EngineTest do
     cs = [c1, c3]
 
     [cs, Enum.reverse(cs)]
-    |> Enum.each(fn rows ->
-      component = %Column{
-        input: %Column.Input{rows: rows},
-        output: %Column.Output{}
+    |> Enum.each(fn content ->
+      component = %GridColumn{
+        input: %GridColumn.Input{content: content},
+        output: %GridColumn.Output{}
       }
 
       assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
@@ -81,10 +81,10 @@ defmodule Bennu.EngineTest do
     cs = [c2, c3]
 
     [cs, Enum.reverse(cs)]
-    |> Enum.each(fn rows ->
-      component = %Column{
-        input: %Column.Input{rows: rows},
-        output: %Column.Output{}
+    |> Enum.each(fn content ->
+      component = %GridColumn{
+        input: %GridColumn.Input{content: content},
+        output: %GridColumn.Output{}
       }
 
       assert {%Phoenix.LiveView.Rendered{}, %{}, %{}} = default_render(component)
@@ -131,16 +131,16 @@ defmodule Bennu.EngineTest do
   end
 
   test "circular dependency in C5" do
-    component = %Column{
-      input: %Column.Input{
-        rows: [
+    component = %GridColumn{
+      input: %GridColumn.Input{
+        content: [
           %C5{
             input: %C5.Input{buf: [%EnvRef{key: @env_key}]},
             output: %C5.Output{bif: %EnvRef{key: @env_key}}
           }
         ]
       },
-      output: %Column.Output{}
+      output: %GridColumn.Output{}
     }
 
     assert_raise RuntimeError,

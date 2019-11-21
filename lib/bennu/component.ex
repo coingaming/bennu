@@ -33,7 +33,9 @@ defmodule Bennu.Component do
       require unquote(__MODULE__), as: Component
       import PhoenixSlime
       import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, trivial_renderer: 1]
-      alias Component.Column
+      alias Component.Grid
+      alias Component.GridColumn
+      alias Component.GridRow
     end
   end
 

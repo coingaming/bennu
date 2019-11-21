@@ -1,17 +1,16 @@
-use Bennu.Component.Column
+use Bennu.Component.GridColumn
 
-defrender type: Column,
+defrender type: GridColumn,
           design: Design.default_coreui(),
           input: %Input{},
           context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{rows: rows} ->
-    assigns = %{rows: rows, socket: socket}
+  renderer = fn %Input{content: content} ->
+    assigns = %{content: content, socket: socket}
 
     ~l"""
     .col
-      = for x <- @rows do
-        .row
-          = x
+      = for x <- @content do
+        = x
     """
   end
 
