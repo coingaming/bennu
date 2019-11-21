@@ -21,7 +21,7 @@ defcomponent Component.GridColumn do
       step: 1,
       min: 1,
       max: 4,
-      type: Range
+      type: Integer
     )
     tablet_width(
       min_qty: nil,
@@ -29,7 +29,7 @@ defcomponent Component.GridColumn do
       step: 1,
       min: 1,
       max: 6,
-      type: Range
+      type: Integer
     )
     desktop_width(
       min_qty: nil,
@@ -37,7 +37,7 @@ defcomponent Component.GridColumn do
       step: 1,
       min: 1,
       max: 12,
-      type: Range
+      type: Integer
     )
   end
 
