@@ -1,6 +1,5 @@
 %{
   "aspire": {:hex, :aspire, "0.1.0", "fa381c3583c2fb4b2a1dfa945dee52ac017d7043cc7bfa76dfd4323eaa547037", [:mix], [], "hexpm"},
-  "backoffice_core": {:git, "git@github.com:coingaming/backoffice_core.git", "caa4f2da24b034cfa58f5b2f96c3484c5c3d0f4c", []},
   "benchfella": {:hex, :benchfella, "0.3.5", "b2122c234117b3f91ed7b43b6e915e19e1ab216971154acd0a80ce0e9b8c05f5", [:mix], [], "hexpm"},
   "benchwarmer": {:hex, :benchwarmer, "0.0.2", "902e5c020608647b07c38b82103e4af6d2667dfd5d5d13c67382238de6943136", [:mix], [], "hexpm"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},

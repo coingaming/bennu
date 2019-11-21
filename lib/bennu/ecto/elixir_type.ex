@@ -8,6 +8,7 @@ defmodule Bennu.Ecto.ElixirType do
     # Float,
     # Function,
     Integer,
+    # Range,
     # PID,
     # Port,
     # Reference,

@@ -124,13 +124,13 @@ defmodule Bennu.Component do
         defstruct unquote(
                     input_schema
                     |> Enum.map(fn
-                      {key, %SchemaValue{min_qty: min_qty, type: Integer}} when min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: Integer}} when is_integer(min_qty) and min_qty > 0 ->
                         {key, List.duplicate(0, min_qty)}
 
-                      {key, %SchemaValue{min_qty: min_qty, type: BitString}} when min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: BitString}} when is_integer(min_qty) when min_qty > 0 ->
                         {key, List.duplicate("", min_qty)}
 
-                      {key, %SchemaValue{min_qty: min_qty, type: Atom}} when min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: Atom}} when is_integer(min_qty) when min_qty > 0 ->
                         {key, List.duplicate(false, min_qty)}
 
                       {key, _} ->
