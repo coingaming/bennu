@@ -119,7 +119,7 @@ defmodule Bennu.Engine do
   end
 
   def render(
-        context: %RenderContext{} = ctx,
+        context: %RenderContext{socket: socket} = ctx,
         design: design,
         env: %{} = env,
         component: component,
@@ -163,7 +163,12 @@ defmodule Bennu.Engine do
         dependency_tree: dependency_tree
       )
 
-    {renderer.(children), new_env1, dependency_tree}
+    assigns =
+      children
+      |> Map.from_struct()
+      |> Map.put(:socket, socket)
+
+    {renderer.(assigns), new_env1, dependency_tree}
   end
 
   defp depends_on?(
