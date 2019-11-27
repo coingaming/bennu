@@ -32,7 +32,7 @@ defmodule Bennu.Component do
       require Phoenix.LiveView.Socket, as: Socket
       require unquote(__MODULE__), as: Component
       import PhoenixSlime
-      import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, trivial_renderer: 1]
+      import unquote(__MODULE__), only: [defcomponent: 2, defrender: 2, defdesignimpl: 2, trivial_renderer: 1]
       alias Component.Grid
       alias Component.GridColumn
       alias Component.GridRow
@@ -206,23 +206,23 @@ defmodule Bennu.Component do
              ],
              do: code
            ) do
-    {short_type, []} = Code.eval_quoted(quoted_type, [], __CALLER__)
+    {comp_type, []} = Code.eval_quoted(quoted_type, [], __CALLER__)
     {design, []} = Code.eval_quoted(quoted_design, [], __CALLER__)
     #
     # TODO : try-catch with more detailed reraise
     #
-    :ok = Type.assert_exist!(short_type)
-    :ok = Protocol.assert_impl!(Componentable, short_type)
+    :ok = Type.assert_exist!(comp_type)
+    :ok = Protocol.assert_impl!(Componentable, comp_type)
     true = Design.is_type(design)
 
     type =
       [
-        Bennu,
         Renderable,
-        short_type,
+        comp_type |> Module.split() |> Enum.slice(2..-1),
         WithDesign,
         design |> Bennu.Utils.enum2module()
       ]
+      |> List.flatten()
       |> Module.concat()
 
     quote do
@@ -235,6 +235,38 @@ defmodule Bennu.Component do
         def render(%unquote(type){}, unquote(quoted_input), unquote(quoted_context)) do
           unquote(code)
         end
+      end
+    end
+  end
+
+  defmacro defdesignimpl( [ type: quoted_type, design: quoted_design ], do: code ) do
+    {comp_type, []} = Code.eval_quoted(quoted_type, [], __CALLER__)
+    {design, []} = Code.eval_quoted(quoted_design, [], __CALLER__)
+    #
+    # TODO : try-catch with more detailed reraise
+    #
+    :ok = Type.assert_exist!(comp_type)
+    :ok = Protocol.assert_impl!(Componentable, comp_type)
+    true = Design.is_type(design)
+
+    type =
+      [
+        Renderable,
+        comp_type |> Module.split() |> Enum.slice(2..-1),
+        WithDesign,
+        design |> Bennu.Utils.enum2module()
+      ]
+      |> List.flatten()
+      |> Module.concat()
+
+    quote do
+      defmodule unquote(type) do
+        @enforce_keys []
+        defstruct @enforce_keys
+      end
+
+      defimpl Bennu.Renderable, for: unquote(type) do
+        unquote(code)
       end
     end
   end
@@ -295,23 +327,23 @@ defmodule Bennu.Component do
     end
   end
 
-  defp new_renderable(short_type, design) when is_atom(short_type) and Design.is_type(design) do
+  defp new_renderable(comp_type, design) when is_atom(comp_type) and Design.is_type(design) do
     #
     # TODO : try-catch with more detailed reraise
     #
     type =
       try do
         [
-          Bennu,
           Renderable,
-          short_type,
+          comp_type |> Module.split() |> Enum.slice(2..-1),
           WithDesign,
           design |> Bennu.Utils.enum2module()
         ]
+        |> List.flatten()
         |> Module.safe_concat()
       rescue
         _ ->
-          raise "component #{inspect(short_type)} not implemented for #{inspect(design)} design"
+          raise "component #{inspect(comp_type)} not implemented for #{inspect(design)} design"
       end
 
     type.__struct__()
