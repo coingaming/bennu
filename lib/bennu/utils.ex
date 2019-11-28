@@ -85,7 +85,7 @@ defmodule Bennu.Utils do
         design |> Bennu.Utils.enum2module()
       ]
       |> List.flatten()
-      |> Module.safe_concat()
+      |> Module.concat()
     rescue
       _ ->
         raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"

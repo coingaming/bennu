@@ -33,7 +33,10 @@ defmodule Bennu.Component do
       require Phoenix.LiveView.Socket, as: Socket
       require unquote(__MODULE__), as: Component
       import PhoenixSlime
-      import unquote(__MODULE__), only: [defcomponent: 2, defdesignimpl: 2, trivial_renderer: 1, component: 1]
+
+      import unquote(__MODULE__),
+        only: [defcomponent: 2, defdesignimpl: 2, trivial_renderer: 1, component: 1]
+
       alias Component.Grid
       alias Component.GridColumn
       alias Component.GridRow
@@ -129,13 +132,18 @@ defmodule Bennu.Component do
         defstruct unquote(
                     input_schema
                     |> Enum.map(fn
-                      {key, %SchemaValue{min_qty: min_qty, type: Integer}} when is_integer(min_qty) and min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: Integer}}
+                      when is_integer(min_qty) and min_qty > 0 ->
                         {key, List.duplicate(0, min_qty)}
 
-                      {key, %SchemaValue{min_qty: min_qty, type: BitString}} when is_integer(min_qty) when min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: BitString}}
+                      when is_integer(min_qty)
+                      when min_qty > 0 ->
                         {key, List.duplicate("", min_qty)}
 
-                      {key, %SchemaValue{min_qty: min_qty, type: Atom}} when is_integer(min_qty) when min_qty > 0 ->
+                      {key, %SchemaValue{min_qty: min_qty, type: Atom}}
+                      when is_integer(min_qty)
+                      when min_qty > 0 ->
                         {key, List.duplicate(false, min_qty)}
 
                       {key, _} ->
@@ -202,7 +210,7 @@ defmodule Bennu.Component do
     end
   end
 
-  defmacro defdesignimpl( [ type: quoted_type, design: quoted_design ], do: code ) do
+  defmacro defdesignimpl([type: quoted_type, design: quoted_design], do: code) do
     {comp_type, []} = Code.eval_quoted(quoted_type, [], __CALLER__)
     {design, []} = Code.eval_quoted(quoted_design, [], __CALLER__)
     #
@@ -234,7 +242,12 @@ defmodule Bennu.Component do
     Componentable.output_schema(it)
   end
 
-  defn evaluate(context: %RenderContext{} = ctx, component: component, design: design, input: input)
+  defn evaluate(
+         context: %RenderContext{} = ctx,
+         component: component,
+         design: design,
+         input: input
+       )
        when Design.is_type(design) do
     component
     |> Type.type_of()

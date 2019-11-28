@@ -10,8 +10,8 @@ defdesignimpl type: GridRow, design: Design.bootstrap() do
   def render(assigns) do
     ~l"""
     .row
-      = for x <- @columns do
-        = x
+      = for component(module: mod, assigns: a) <- @columns do
+        = live_component @socket, mod, [{:socket, @socket} | a]
     """
   end
 end

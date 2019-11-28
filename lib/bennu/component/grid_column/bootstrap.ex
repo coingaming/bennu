@@ -58,8 +58,8 @@ defdesignimpl type: GridColumn, design: Design.bootstrap() do
 
     ~l"""
     div class=class
-      = for x <- @content do
-        = x
+      = for component(module: mod, assigns: a) <- @content do
+        = live_component @socket, mod, [{:socket, @socket} | a]
     """
   end
 
