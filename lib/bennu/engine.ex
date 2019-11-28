@@ -136,8 +136,8 @@ defmodule Bennu.Engine do
         input_schema: input_schema
       )
 
-    {renderer, output} =
-      Component.render(
+    output =
+      Component.evaluate(
         context: ctx,
         component: component,
         design: design,
@@ -152,8 +152,8 @@ defmodule Bennu.Engine do
         component: component
       )
 
-    {children, new_env1, dependency_tree} =
-      render_children(
+    {evaluated_input, new_env1, dependency_tree} =
+      evaluate_children(
         context: ctx,
         design: design,
         env: new_env0,
@@ -164,11 +164,20 @@ defmodule Bennu.Engine do
       )
 
     assigns =
-      children
+      evaluated_input
       |> Map.from_struct()
-      |> Map.put(:socket, socket)
+      |> Map.to_list()
 
-    {renderer.(assigns), new_env1, dependency_tree}
+    live_component =
+      [
+        Bennu.Renderable,
+        component
+        |> Typable.type_of()
+        |> Bennu.Utils.comp_design_module(design)
+      ]
+      |> Module.safe_concat()
+
+    {Component.component(module: live_component, assigns: assigns), new_env1, dependency_tree}
   end
 
   defp depends_on?(
@@ -347,7 +356,7 @@ defmodule Bennu.Engine do
     end)
   end
 
-  Kernel.defp render_children(
+  Kernel.defp evaluate_children(
                 context: %RenderContext{} = ctx,
                 design: design,
                 env: %{} = env,
@@ -422,7 +431,7 @@ defmodule Bennu.Engine do
         {new_input, new_env, dependency_tree}
 
       {%_{} = new_input, %{} = new_env, dependency_tree} ->
-        render_children(
+        evaluate_children(
           context: ctx,
           design: design,
           env: new_env,

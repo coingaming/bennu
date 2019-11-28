@@ -4,9 +4,7 @@ defprotocol Bennu.Renderable do
   @type t :: __MODULE__.t()
   @type input :: term
   @type output :: term
-  @type html :: {:safe, term} | Phoenix.LiveView.Rendered.t()
-  @type renderer :: (input -> html)
 
-  @spec render(t, input, RenderContext.t()) :: {renderer, output}
-  def render(t, input, context)
+  @spec evaluate(t, input, RenderContext.t()) :: output
+  def evaluate(t, input, context)
 end

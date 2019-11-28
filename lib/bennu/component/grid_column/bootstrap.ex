@@ -1,24 +1,19 @@
 use Bennu.Component.GridColumn
 
-defrender type: GridColumn,
-          design: Design.bootstrap(),
-          input: %Input{},
-          context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{
-                  content: content,
-                  width: width,
-                  phone_width: phone_width,
-                  tablet_width: tablet_width,
-                  desktop_width: desktop_width
-                } ->
-    assigns = %{
-      socket: socket,
-      content: content,
+defdesignimpl type: GridColumn, design: Design.bootstrap() do
+  use Phoenix.LiveComponent
+
+  def evaluate(_, %Input{}, %RenderContext{}) do
+    %Output{}
+  end
+
+  def render(assigns) do
+    %{
       width: width,
       phone_width: phone_width,
       tablet_width: tablet_width,
       desktop_width: desktop_width
-    }
+    } = assigns
 
     class =
       [
@@ -68,5 +63,4 @@ defrender type: GridColumn,
     """
   end
 
-  {renderer, %Output{}}
 end

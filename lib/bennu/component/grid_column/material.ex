@@ -1,24 +1,19 @@
 use Bennu.Component.GridColumn
 
-defrender type: GridColumn,
-          design: Design.material(),
-          input: %Input{},
-          context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{
-                  content: content,
-                  width: width,
-                  phone_width: phone_width,
-                  tablet_width: tablet_width,
-                  desktop_width: desktop_width
-                } ->
-    assigns = %{
-      socket: socket,
-      content: content,
+defdesignimpl type: GridColumn, design: Design.material() do
+  use Phoenix.LiveComponent
+
+  def evaluate(_, %Input{}, %RenderContext{}) do
+    %Output{}
+  end
+
+  def render(assigns) do
+    %{
       width: width,
       phone_width: phone_width,
       tablet_width: tablet_width,
       desktop_width: desktop_width
-    }
+    } = assigns
 
     class =
       [
@@ -28,7 +23,7 @@ defrender type: GridColumn,
         desktop_width: desktop_width
       ]
       |> Enum.reduce([], fn
-        {:width, [12]}, acc ->
+        {:width, [4]}, acc ->
           ["mdc-layout-grid__cell" | acc]
 
         {:width, [size]}, acc ->
@@ -47,7 +42,7 @@ defrender type: GridColumn,
           acc
       end)
       |> case do
-        [] -> ["mdc-layout-grid__cell"]
+        [] -> ["mdc-layout-grid__cell--span-12"]
         x -> x
       end
       |> Enum.join(" ")
@@ -58,6 +53,4 @@ defrender type: GridColumn,
         = x
     """
   end
-
-  {renderer, %Output{}}
 end

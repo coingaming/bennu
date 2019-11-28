@@ -1,18 +1,17 @@
 use Bennu.Component.GridRow
 
-defrender type: GridRow,
-          design: Design.bootstrap(),
-          input: %Input{},
-          context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{columns: columns} ->
-    assigns = %{columns: columns, socket: socket}
+defdesignimpl type: GridRow, design: Design.bootstrap() do
+  use Phoenix.LiveComponent
 
+  def evaluate(_, %Input{}, %RenderContext{}) do
+    %Output{}
+  end
+
+  def render(assigns) do
     ~l"""
     .row
       = for x <- @columns do
         = x
     """
   end
-
-  {renderer, %Output{}}
 end

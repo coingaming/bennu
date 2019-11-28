@@ -1,12 +1,13 @@
 use Bennu.Component.Grid
 
-defrender type: Grid,
-          design: Design.bootstrap(),
-          input: %Input{},
-          context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{rows: rows} ->
-    assigns = %{rows: rows, socket: socket}
+defdesignimpl type: Grid, design: Design.bootstrap() do
+  use Phoenix.LiveComponent
 
+  def evaluate(_, %Input{}, %RenderContext{}) do
+    %Output{}
+  end
+
+  def render(assigns) do
     ~l"""
     .container
       = for x <- @rows do
@@ -14,5 +15,4 @@ defrender type: Grid,
     """
   end
 
-  {renderer, %Output{}}
 end

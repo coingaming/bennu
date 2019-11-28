@@ -74,4 +74,21 @@ defmodule Bennu.Utils do
     "invalid or unsafe AST term #{inspect(ast)}"
     |> raise
   end
+
+  def comp_design_module(comp_module, design) do
+    try do
+      [
+        Bennu,
+        Renderable,
+        comp_module |> Module.split() |> Enum.slice(2..-1),
+        WithDesign,
+        design |> Bennu.Utils.enum2module()
+      ]
+      |> List.flatten()
+      |> Module.safe_concat()
+    rescue
+      _ ->
+        raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
+    end
+  end
 end

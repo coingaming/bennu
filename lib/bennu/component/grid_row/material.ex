@@ -1,12 +1,13 @@
 use Bennu.Component.GridRow
 
-defrender type: GridRow,
-          design: Design.material(),
-          input: %Input{},
-          context: %RenderContext{socket: %Socket{} = socket} do
-  renderer = fn %Input{columns: columns} ->
-    assigns = %{columns: columns, socket: socket}
+defdesignimpl type: GridRow, design: Design.material() do
+  use Phoenix.LiveComponent
 
+  def evaluate(_, %Input{}, %RenderContext{}) do
+    %Output{}
+  end
+
+  def render(assigns) do
     ~l"""
     .mdc-layout-grid__inner
       = for x <- @columns do
@@ -14,5 +15,4 @@ defrender type: GridRow,
     """
   end
 
-  {renderer, %Output{}}
 end
