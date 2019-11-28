@@ -119,7 +119,7 @@ defmodule Bennu.Engine do
   end
 
   def render(
-        context: %RenderContext{socket: socket} = ctx,
+        context: ctx,
         design: design,
         env: %{} = env,
         component: component,
