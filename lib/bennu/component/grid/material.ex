@@ -1,6 +1,7 @@
 use Bennu.Component.Grid
+alias Bennu.Design.Material
 
-defdesignimpl type: Grid, design: Design.material() do
+defdesignimpl type: Grid, design: Material do
   use Phoenix.LiveComponent
 
   def evaluate(_, %Input{}, %RenderContext{}) do

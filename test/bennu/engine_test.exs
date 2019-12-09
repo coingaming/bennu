@@ -1,6 +1,7 @@
 defmodule Bennu.EngineTest do
   use ExUnit.Case
   use Bennu.Component
+  alias Bennu.Design.Bootstrap
 
   @env_key "article_id"
 
@@ -166,7 +167,7 @@ defmodule Bennu.EngineTest do
   defp default_render(component) do
     Engine.render(
       component: component,
-      design: Design.bootstrap(),
+      design: Bootstrap,
       context: default_ctx(component),
       env: %{"article_id" => 123},
       independent_children?: false,

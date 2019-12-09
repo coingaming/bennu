@@ -1,6 +1,7 @@
 use Bennu.Component.GridColumn
+alias Bennu.Design.Bootstrap
 
-defdesignimpl type: GridColumn, design: Design.bootstrap() do
+defdesignimpl type: GridColumn, design: Bootstrap do
   use Phoenix.LiveComponent
 
   def evaluate(_, %Input{}, %RenderContext{}) do

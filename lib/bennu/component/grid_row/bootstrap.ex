@@ -1,6 +1,7 @@
 use Bennu.Component.GridRow
+alias Bennu.Design.Bootstrap
 
-defdesignimpl type: GridRow, design: Design.bootstrap() do
+defdesignimpl type: GridRow, design: Bootstrap do
   use Phoenix.LiveComponent
 
   def evaluate(_, %Input{}, %RenderContext{}) do

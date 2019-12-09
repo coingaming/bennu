@@ -1,6 +1,7 @@
 use Bennu.Component.GridRow
+alias Bennu.Design.Material
 
-defdesignimpl type: GridRow, design: Design.material() do
+defdesignimpl type: GridRow, design: Material do
   use Phoenix.LiveComponent
 
   def evaluate(_, %Input{}, %RenderContext{}) do
@@ -14,5 +15,4 @@ defdesignimpl type: GridRow, design: Design.material() do
         = live_component @socket, mod, [{:socket, @socket} | a]
     """
   end
-
 end

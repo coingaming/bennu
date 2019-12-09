@@ -82,7 +82,7 @@ defmodule Bennu.Utils do
         Renderable,
         comp_module |> Module.split() |> Enum.slice(2..-1),
         WithDesign,
-        design |> Bennu.Utils.enum2module()
+        design
       ]
       |> List.flatten()
       |> Module.concat()

@@ -7,7 +7,6 @@ defmodule Bennu.Component do
 
   require Bennu.Componentable, as: Componentable
   require Bennu.Componentable.SchemaValue, as: SchemaValue
-  require Bennu.Design.Meta, as: Design
   require Bennu.Renderable, as: Renderable
   require Bennu.RenderContext, as: RenderContext
   import Record
@@ -22,8 +21,6 @@ defmodule Bennu.Component do
 
   defmacro __using__(_) do
     quote do
-      require Bennu.Design.Items, as: Design
-      require Bennu.Design.Meta, as: DesignMeta
       require Bennu.Engine, as: Engine
       require Bennu.Env.OnDuplicate.Items, as: OnDuplicate
       require Bennu.Env.Ref, as: EnvRef
@@ -218,7 +215,6 @@ defmodule Bennu.Component do
     #
     :ok = Type.assert_exist!(comp_type)
     :ok = Protocol.assert_impl!(Componentable, comp_type)
-    true = Design.is_type(design)
 
     type = Bennu.Utils.comp_design_module(comp_type, design)
 
@@ -247,8 +243,7 @@ defmodule Bennu.Component do
          component: component,
          design: design,
          input: input
-       )
-       when Design.is_type(design) do
+       ) do
     component
     |> Type.type_of()
     |> new_renderable(design)
@@ -295,7 +290,7 @@ defmodule Bennu.Component do
     end
   end
 
-  defp new_renderable(comp_type, design) when is_atom(comp_type) and Design.is_type(design) do
+  defp new_renderable(comp_type, design) when is_atom(comp_type) do
     comp_type
     |> Bennu.Utils.comp_design_module(design)
     |> struct()

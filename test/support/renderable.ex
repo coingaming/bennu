@@ -1,7 +1,8 @@
 use Bennu.Component
+alias Bennu.Design.Bootstrap
 
 defrender type: C0,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C0.Input{},
           context: %RenderContext{} do
   renderer = fn %C0.Input{} ->
@@ -16,7 +17,7 @@ defrender type: C0,
 end
 
 defrender type: C1,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C1.Input{bar: bar},
           context: %RenderContext{} do
   renderer = fn %C1.Input{} ->
@@ -31,7 +32,7 @@ defrender type: C1,
 end
 
 defrender type: C2,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C2.Input{},
           context: %RenderContext{} do
   renderer = fn %C2.Input{c1: [_ | _] = c1} ->
@@ -48,7 +49,7 @@ defrender type: C2,
 end
 
 defrender type: C3,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C3.Input{},
           context: %RenderContext{} do
   renderer = fn %C3.Input{c0: [_ | _] = c0} ->
@@ -65,7 +66,7 @@ defrender type: C3,
 end
 
 defrender type: C4,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C4.Input{buz: buz},
           context: %RenderContext{} do
   renderer = fn %C4.Input{} ->
@@ -80,7 +81,7 @@ defrender type: C4,
 end
 
 defrender type: C5,
-          design: Design.bootstrap(),
+          design: Bootstrap,
           input: %C5.Input{buf: buf},
           context: %RenderContext{} do
   renderer = fn %C5.Input{} ->

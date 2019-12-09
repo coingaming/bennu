@@ -2,7 +2,6 @@ defmodule Bennu.Engine do
   use Defnamed, replace_kernel: true
   require Bennu.Component, as: Component
   require Bennu.Componentable.SchemaValue, as: SchemaValue
-  require Bennu.Design.Meta, as: DesignMeta
   require Bennu.Env.OnDuplicate.Items, as: OnDuplicate
   require Bennu.Env.OnDuplicate.Meta, as: OnDuplicateMeta
   require Bennu.Env.Ref, as: EnvRef
@@ -125,8 +124,7 @@ defmodule Bennu.Engine do
         component: component,
         independent_children?: independent_children?,
         dependency_tree: %{} = dependency_tree
-      )
-      when DesignMeta.is_type(design) do
+      ) do
     input_schema = Component.input_schema(it: component)
 
     input =
@@ -185,8 +183,7 @@ defmodule Bennu.Engine do
          right: %_{input: %_{} = right_input, output: %_{} = right_output} = right,
          design: design,
          dependency_tree: %{} = dependency_tree
-       )
-       when DesignMeta.is_type(design) do
+       ) do
     dependency_tree
     |> get_in([left, right])
     |> case do
@@ -296,8 +293,7 @@ defmodule Bennu.Engine do
          design: design,
          independent_children?: independent_children?,
          dependency_tree: %{} = dependency_tree
-       )
-       when DesignMeta.is_type(design) do
+       ) do
     Component.is_component?(
       it: it,
       design: design
@@ -364,8 +360,7 @@ defmodule Bennu.Engine do
                 input_schema: %{} = input_schema,
                 independent_children?: independent_children?,
                 dependency_tree: %{} = dependency_tree
-              )
-              when DesignMeta.is_type(design) do
+              ) do
     input_schema
     |> Enum.reduce({input, env, dependency_tree}, fn {key, %SchemaValue{}},
                                                      {
