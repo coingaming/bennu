@@ -1,7 +1,7 @@
 use Bennu.Component.Grid
 alias Bennu.Design.Bootstrap
 
-defdesignimpl type: Grid, design: Bbootstrap do
+defdesignimpl type: Grid, design: Bootstrap do
   use Phoenix.LiveComponent
 
   def evaluate(_, %Input{}, %RenderContext{}) do
