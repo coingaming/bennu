@@ -80,12 +80,12 @@ defmodule Bennu.Utils do
       [
         Bennu,
         Renderable,
-        comp_module |> Module.split() |> Enum.slice(2..-1),
-        WithDesign,
-        design
+        design,
+        comp_module |> Module.split() |> Enum.slice(2..-1)
       ]
       |> List.flatten()
       |> Module.concat()
+      |> IO.inspect()
     rescue
       _ ->
         raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"

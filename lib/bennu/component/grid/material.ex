@@ -1,5 +1,4 @@
 use Bennu.Component.Grid
-alias Bennu.Design.Material
 
 defdesignimpl type: Grid, design: Material do
   use Phoenix.LiveComponent

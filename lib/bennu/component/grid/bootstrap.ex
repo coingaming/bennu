@@ -1,5 +1,4 @@
 use Bennu.Component.Grid
-alias Bennu.Design.Bootstrap
 
 defdesignimpl type: Grid, design: Bootstrap do
   use Phoenix.LiveComponent

@@ -1,5 +1,4 @@
 use Bennu.Component.GridRow
-alias Bennu.Design.Material
 
 defdesignimpl type: GridRow, design: Material do
   use Phoenix.LiveComponent
