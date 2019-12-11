@@ -85,7 +85,6 @@ defmodule Bennu.Utils do
       ]
       |> List.flatten()
       |> Module.concat()
-      |> IO.inspect()
     rescue
       _ ->
         raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
