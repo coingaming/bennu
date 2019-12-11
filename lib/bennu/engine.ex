@@ -7,6 +7,42 @@ defmodule Bennu.Engine do
   require Bennu.Env.Ref, as: EnvRef
   require Bennu.RenderContext, as: RenderContext
 
+  defp validate_type!(
+         key: key,
+         value: value,
+         schema_value:
+           %SchemaValue{
+             min_qty: min_qty,
+             max_qty: max_qty,
+             type: type
+           } = schema_value
+       )
+       when is_list(value) and is_atom(type) do
+    value
+    |> length
+    |> case do
+      qty when is_nil(min_qty) or qty >= min_qty ->
+        case is_nil(max_qty) or qty <= max_qty do
+          true -> :ok
+          false -> raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
+        end
+
+      qty ->
+        raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
+    end
+
+    value
+    |> Enum.each(fn val ->
+      val
+      |> Type.type_of()
+      |> case do
+        ^type -> :ok
+        _ when type == Any -> :ok
+        other -> raise("#{key} expected #{type} type, but got #{other} for #{inspect(value)}")
+      end
+    end)
+  end
+
   defp create_input(
          component: %_{input: %_{} = raw_input},
          env: %{} = env,
@@ -78,42 +114,6 @@ defmodule Bennu.Engine do
             |> MapSet.to_list()
         end
       end)
-    end)
-  end
-
-  defp validate_type!(
-         key: key,
-         value: value,
-         schema_value:
-           %SchemaValue{
-             min_qty: min_qty,
-             max_qty: max_qty,
-             type: type
-           } = schema_value
-       )
-       when is_list(value) and is_atom(type) do
-    value
-    |> length
-    |> case do
-      qty when is_nil(min_qty) or qty >= min_qty ->
-        case is_nil(max_qty) or qty <= max_qty do
-          true -> :ok
-          false -> raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
-        end
-
-      qty ->
-        raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
-    end
-
-    value
-    |> Enum.each(fn val ->
-      val
-      |> Type.type_of()
-      |> case do
-        ^type -> :ok
-        _ when type == Any -> :ok
-        other -> raise("#{key} expected #{type} type, but got #{other} for #{inspect(value)}")
-      end
     end)
   end
 
