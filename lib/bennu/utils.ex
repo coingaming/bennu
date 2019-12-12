@@ -76,18 +76,21 @@ defmodule Bennu.Utils do
   end
 
   def comp_design_module(comp_module, design) do
-    try do
-      [
-        Bennu,
-        Renderable,
-        design,
-        comp_module |> Module.split() |> Enum.slice(2..-1)
-      ]
-      |> List.flatten()
-      |> Module.concat()
-    rescue
-      _ ->
-        raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
-    end
+    [
+      Bennu,
+      Renderable,
+      design,
+      comp_module |> Module.split() |> Enum.slice(2..-1)
+    ]
+    |> List.flatten()
+    |> Module.concat()
   end
+
+  # def inherited_comp_design_module(comp_module, design) do
+  #   module = comp_design_module(comp_module, design)
+
+  #   case function_exported?(module, function, arity)
+
+  #   raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
+  # end
 end
