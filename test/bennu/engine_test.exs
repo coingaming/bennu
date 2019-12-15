@@ -1,7 +1,6 @@
 defmodule Bennu.EngineTest do
   use ExUnit.Case
   use Bennu.Component
-  alias Bennu.Design.Bootstrap
 
   @env_key "article_id"
 

@@ -86,11 +86,25 @@ defmodule Bennu.Utils do
     |> Module.concat()
   end
 
-  # def inherited_comp_design_module(comp_module, design) do
-  #   module = comp_design_module(comp_module, design)
+  def comp_design_impl(comp_module, design) do
+    comp_module
+    |> comp_design_module(design)
+    |> Code.ensure_compiled()
+    |> case do
+      {:module, module} ->
+        module
 
-  #   case function_exported?(module, function, arity)
+      _ ->
+        design
+        |> struct()
+        |> Bennu.Design.parent()
+        |> case do
+          nil ->
+            raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
 
-  #   raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
-  # end
+          parent_design ->
+            comp_design_impl(comp_module, parent_design)
+        end
+    end
+  end
 end

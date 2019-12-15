@@ -292,7 +292,7 @@ defmodule Bennu.Component do
 
   defp new_renderable(comp_type, design) when is_atom(comp_type) do
     comp_type
-    |> Bennu.Utils.comp_design_module(design)
+    |> Bennu.Utils.comp_design_impl(design)
     |> struct()
   end
 end

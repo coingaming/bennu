@@ -1,5 +1,4 @@
 use Bennu.Component
-alias Bennu.Design.Bootstrap
 
 defrender type: C0,
           design: Bootstrap,
