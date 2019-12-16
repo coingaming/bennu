@@ -65,9 +65,10 @@ defmodule Bennu.Component do
           {:__block__, _, xs} when is_list(xs) -> xs
           _ -> [code]
         end
-        |> Enum.reduce(%{}, fn {field, _, [spec]}, %{} = acc ->
+        |> Enum.with_index()
+        |> Enum.reduce(%{}, fn {{field, _, [spec]}, index}, %{} = acc ->
           false = Map.has_key?(acc, field)
-          Map.put_new(acc, field, spec)
+          Map.put_new(acc, field, [{:index, index} | spec])
         end)
       end)
 

@@ -5,6 +5,7 @@ end
 defmodule Bennu.Componentable.SchemaValue do
   @type t :: %__MODULE__{
           type: module,
+          index: non_neg_integer | nil,
           min_qty: non_neg_integer | nil,
           max_qty: non_neg_integer | nil,
           min: non_neg_integer | nil,
@@ -12,7 +13,7 @@ defmodule Bennu.Componentable.SchemaValue do
           step: non_neg_integer | nil
         }
   @enforce_keys [:type, :min_qty, :max_qty]
-  defstruct [:type, :min_qty, :max_qty, :min, :max, :step]
+  defstruct [:type, :index, :min_qty, :max_qty, :min, :max, :step]
 end
 
 defmodule Bennu.Componentable.Schema do
