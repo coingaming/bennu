@@ -14,4 +14,8 @@ defimpl Bennu.Schema, for: NumberSchema do
   def get(_, data, []) do
     data
   end
+
+  def put(_, _, [], value) do
+    value
+  end
 end

@@ -14,4 +14,8 @@ defimpl Bennu.Schema, for: TextSchema do
   def get(_, data, []) do
     data
   end
+
+  def put(_, _, [], value) do
+    value
+  end
 end
