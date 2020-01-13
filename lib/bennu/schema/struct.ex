@@ -5,7 +5,7 @@ end
 defimpl Bennu.Schema, for: StructSchema do
   def validate(%StructSchema{fields: fields}, data) do
     Enum.all?(fields, fn {key, schema} ->
-      &Bennu.Schema.validate(schema, Map.get(data, key))
+      Bennu.Schema.validate(schema, Map.get(data, key))
     end)
   end
 
@@ -37,16 +37,16 @@ defimpl Bennu.Schema, for: StructSchema do
   end
 end
 
-defimpl Bennu.Schema, for: NavSchema do
-  @schema %StructSchema{
-    fields: [
-      title: %TextSchema{},
-      url: %TextSchema{},
-      children: %ListSchema{item_schema: %NavSchema{}}
-    ]
-  }
+# defimpl Bennu.Schema, for: NavSchema do
+#   @schema %StructSchema{
+#     fields: [
+#       title: %TextSchema{},
+#       url: %TextSchema{},
+#       children: %ListSchema{schema: %NavSchema{}}
+#     ]
+#   }
 
-  def validate(_, data), do: Bennu.Schema.validate(@schema, data)
-  def get(_, data, path), do: Bennu.Schema.get(@schema, data, path)
-  def put(_, data, path, value), do: Bennu.Schema.put(@schema, data, path, value)
-end
+#   def validate(_, data), do: Bennu.Schema.validate(@schema, data)
+#   def get(_, data, path), do: Bennu.Schema.get(@schema, data, path)
+#   def put(_, data, path, value), do: Bennu.Schema.put(@schema, data, path, value)
+# end

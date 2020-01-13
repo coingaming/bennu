@@ -1,5 +1,5 @@
 defmodule ListSchema do
-  defstruct [:item_schema]
+  defstruct [:schema]
 end
 
 defimpl Bennu.Schema, for: ListSchema do
