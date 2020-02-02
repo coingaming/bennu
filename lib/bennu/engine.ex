@@ -7,41 +7,41 @@ defmodule Bennu.Engine do
   require Bennu.Env.Ref, as: EnvRef
   require Bennu.RenderContext, as: RenderContext
 
-  defp validate_type!(
-         key: key,
-         value: value,
-         schema_value:
-           %SchemaValue{
-             min_qty: min_qty,
-             max_qty: max_qty,
-             type: type
-           } = schema_value
-       )
-       when is_list(value) and is_atom(type) do
-    value
-    |> length
-    |> case do
-      qty when is_nil(min_qty) or qty >= min_qty ->
-        case is_nil(max_qty) or qty <= max_qty do
-          true -> :ok
-          false -> raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
-        end
+  # defp validate_type!(
+  #        key: key,
+  #        value: value,
+  #        schema_value:
+  #          %SchemaValue{
+  #            min_qty: min_qty,
+  #            max_qty: max_qty,
+  #            type: %_{} = type
+  #          } = schema_value
+  #      )
+  #      when is_list(value) do
+  #   value
+  #   |> length
+  #   |> case do
+  #     qty when is_nil(min_qty) or qty >= min_qty ->
+  #       case is_nil(max_qty) or qty <= max_qty do
+  #         true -> :ok
+  #         false -> raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
+  #       end
 
-      qty ->
-        raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
-    end
+  #     qty ->
+  #       raise("#{key} qty=#{qty} for field of type #{inspect(schema_value)}")
+  #   end
 
-    value
-    |> Enum.each(fn val ->
-      val
-      |> Type.type_of()
-      |> case do
-        ^type -> :ok
-        _ when type == Any -> :ok
-        other -> raise("#{key} expected #{type} type, but got #{other} for #{inspect(value)}")
-      end
-    end)
-  end
+  #   value
+  #   |> Enum.each(fn val ->
+  #     val
+  #     |> Type.type_of()
+  #     |> case do
+  #       ^type -> :ok
+  #       _ when type == Any -> :ok
+  #       other -> raise("#{key} expected #{type} type, but got #{other} for #{inspect(value)}")
+  #     end
+  #   end)
+  # end
 
   defp create_input(
          component: %_{input: %_{} = raw_input},
@@ -69,7 +69,7 @@ defmodule Bennu.Engine do
             [literal]
         end)
 
-      :ok = validate_type!(key: key, value: value, schema_value: schema_value)
+      # :ok = validate_type!(key: key, value: value, schema_value: schema_value)
       Map.put(input, key, value)
     end)
   end
@@ -83,7 +83,7 @@ defmodule Bennu.Engine do
     output_schema
     |> Enum.reduce(env, fn {key, %SchemaValue{} = schema_value}, %{} = env when is_atom(key) ->
       value = Map.fetch!(output, key)
-      :ok = validate_type!(key: key, value: value, schema_value: schema_value)
+      # :ok = validate_type!(key: key, value: value, schema_value: schema_value)
       %EnvRef{key: env_key, on_duplicate: on_duplicate} = Map.fetch!(raw_output, key)
       true = OnDuplicateMeta.is_type(on_duplicate)
 

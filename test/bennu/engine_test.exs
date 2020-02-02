@@ -98,7 +98,7 @@ defmodule Bennu.EngineTest do
     }
 
     assert_raise RuntimeError,
-                 "buz qty=0 for field of type %Bennu.Componentable.SchemaValue{max: nil, max_qty: 2, min: nil, min_qty: 1, step: nil, type: Integer}",
+                 "buz qty=0 for field of type %Bennu.Componentable.SchemaValue{max_qty: 2, min_qty: 1, type: Integer}",
                  fn ->
                    default_render(component)
                  end
@@ -111,7 +111,7 @@ defmodule Bennu.EngineTest do
     }
 
     assert_raise RuntimeError,
-                 "buz qty=3 for field of type %Bennu.Componentable.SchemaValue{max: nil, max_qty: 2, min: nil, min_qty: 1, step: nil, type: Integer}",
+                 "buz qty=3 for field of type %Bennu.Componentable.SchemaValue{max_qty: 2, min_qty: 1, type: Integer}",
                  fn ->
                    default_render(component)
                  end
