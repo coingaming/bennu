@@ -49,7 +49,7 @@ defmodule Bennu.Engine do
          input_schema: %{} = input_schema
        ) do
     input_schema
-    |> Enum.reduce(raw_input, fn {key, %SchemaValue{} = schema_value}, %_{} = input
+    |> Enum.reduce(raw_input, fn {key, %SchemaValue{}}, %_{} = input
                                  when is_atom(key) ->
       value =
         raw_input
@@ -81,7 +81,7 @@ defmodule Bennu.Engine do
          component: %_{output: %out{} = raw_output}
        ) do
     output_schema
-    |> Enum.reduce(env, fn {key, %SchemaValue{} = schema_value}, %{} = env when is_atom(key) ->
+    |> Enum.reduce(env, fn {key, %SchemaValue{}}, %{} = env when is_atom(key) ->
       value = Map.fetch!(output, key)
       # :ok = validate_type!(key: key, value: value, schema_value: schema_value)
       %EnvRef{key: env_key, on_duplicate: on_duplicate} = Map.fetch!(raw_output, key)
