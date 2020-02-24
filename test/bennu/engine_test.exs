@@ -158,7 +158,6 @@ defmodule Bennu.EngineTest do
       index: nil,
       conn: %Plug.Conn{},
       socket: %Phoenix.LiveView.Socket{},
-      base_path: nil,
       path: nil
     }
   end
