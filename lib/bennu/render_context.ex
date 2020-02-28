@@ -6,6 +6,7 @@ defmodule Bennu.RenderContext do
           index: non_neg_integer | nil,
           conn: Plug.Conn.t(),
           socket: %Phoenix.LiveView.Socket{},
+          base_path: [String.t()],
           path: [String.t()]
         }
   @enforce_keys [
@@ -15,6 +16,7 @@ defmodule Bennu.RenderContext do
     :index,
     :conn,
     :socket,
+    :base_path,
     :path
   ]
   defstruct @enforce_keys
