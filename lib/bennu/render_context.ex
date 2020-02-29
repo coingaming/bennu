@@ -6,12 +6,12 @@ defmodule Bennu.RenderContext do
           index: non_neg_integer | nil,
           attrs: map
         }
-  @enforce_keys [
-    :parent,
-    :component,
-    :name,
-    :index,
-    :attrs,
+  @enforce_keys [:component]
+  defstruct [
+    parent: nil,
+    component: nil,
+    name: nil,
+    index: nil,
+    attrs: %{},
   ]
-  defstruct @enforce_keys
 end

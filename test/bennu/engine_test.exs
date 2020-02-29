@@ -151,13 +151,7 @@ defmodule Bennu.EngineTest do
   end
 
   defp default_ctx(component) do
-    %RenderContext{
-      parent: nil,
-      component: component,
-      name: nil,
-      index: nil,
-      attrs: %{}
-    }
+    %RenderContext{component: component}
   end
 
   defp default_render(component) do
