@@ -45,7 +45,7 @@ defmodule Bennu.MixProject do
       {:defnamed, "~> 0.1.3"},
       {:selectable, github: "coingaming/selectable"},
       {:readable, "~> 0.1.0"},
-      {:meme, "~> 0.2"},
+      {:meme, "~> 0.2", organization: "coingaming"},
       {:earmark, "~> 1.3.5"},
       {:phoenix_slime, github: "coingaming/phoenix_slime", branch: "coingaming"},
       # dev tools
