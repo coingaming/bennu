@@ -33,13 +33,23 @@ defmodule Bennu.Utils do
     |> Module.concat()
   end
 
+  def comp_design_impl!(comp_module, design) do
+    case comp_design_impl(comp_module, design) do
+      {:ok, module} ->
+        module
+
+      :error ->
+        raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
+    end
+  end
+
   def comp_design_impl(comp_module, design) do
     comp_module
     |> comp_design_module(design)
     |> Code.ensure_compiled()
     |> case do
       {:module, module} ->
-        module
+        {:ok, module}
 
       _ ->
         design
@@ -47,7 +57,7 @@ defmodule Bennu.Utils do
         |> Bennu.Design.parent()
         |> case do
           nil ->
-            raise "component #{inspect(comp_module)} not implemented for #{inspect(design)} design"
+            :error
 
           parent_design ->
             comp_design_impl(comp_module, parent_design)

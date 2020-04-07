@@ -171,7 +171,7 @@ defmodule Bennu.Engine do
         Bennu.Renderable,
         component
         |> Typable.type_of()
-        |> Bennu.Utils.comp_design_impl(design)
+        |> Bennu.Utils.comp_design_impl!(design)
       ]
       |> Module.safe_concat()
 
