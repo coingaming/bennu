@@ -31,9 +31,9 @@ defmodule Bennu.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
+      {:phoenix, "~> 1.5.7"},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix_html, "~> 2.14.2"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.15.4"},
       {:ecto_sql, "~> 3.2"},
@@ -47,7 +47,7 @@ defmodule Bennu.MixProject do
       {:readable, "~> 0.1.0"},
       {:meme, "~> 0.2", organization: "coingaming"},
       {:earmark, "~> 1.3.5"},
-      {:phoenix_slime, github: "coingaming/phoenix_slime", branch: "coingaming"},
+      {:phoenix_slime, "~> 0.13.1"},
       # dev tools
       {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
