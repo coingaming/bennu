@@ -35,7 +35,7 @@ defmodule Bennu.MixProject do
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+      {:phoenix_live_view, "~> 0.15.4"},
       {:ecto_sql, "~> 3.2"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.2"},
