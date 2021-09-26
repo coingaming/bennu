@@ -14,14 +14,6 @@ defmodule Bennu.Utils do
     |> String.replace("_", "-")
   end
 
-  def push_path(%Plug.Conn{path_info: path_info}, x) do
-    "/#{path_info |> Enum.concat([to_string(x)]) |> Path.join()}"
-  end
-
-  def pop_path(%Plug.Conn{path_info: path_info}) do
-    "/#{path_info |> Enum.drop(-1) |> Path.join()}"
-  end
-
   def comp_design_module(comp_module, design) do
     [
       Bennu,

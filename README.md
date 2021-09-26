@@ -15,3 +15,11 @@ def deps do
   ]
 end
 ```
+
+## Development Setup
+
+```bash
+git clone git@github.com:coingaming/lab_auth.git
+cd lab_auth
+./setup
+```

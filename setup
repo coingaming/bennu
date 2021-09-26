@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -ex
+
+command -v asdf > /dev/null && asdf install
+mix local.hex --force
+mix local.rebar --force
+command -v asdf > /dev/null && asdf reshim
+
+mix deps.get

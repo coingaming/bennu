@@ -29,7 +29,6 @@ defmodule Bennu.Component do
       require Ecto.Changeset, as: Changeset
       require Phoenix.LiveView.Socket, as: Socket
       require unquote(__MODULE__), as: Component
-      import PhoenixSlime
 
       import unquote(__MODULE__),
         only: [defcomponent: 2, defdesignimpl: 2, trivial_renderer: 1, component: 1]

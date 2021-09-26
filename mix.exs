@@ -31,23 +31,11 @@ defmodule Bennu.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
-      {:phoenix_html, "~> 2.14"},
-      {:phoenix_live_view, "~> 0.15"},
-      {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:ecto_sql, "~> 3.2"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.2"},
       {:gen_enum, "~> 0.4", organization: "coingaming"},
       {:typable, "~> 0.3"},
       {:defnamed, "~> 0.1.3"},
-      {:selectable, github: "coingaming/selectable"},
-      {:readable, "~> 0.1.0"},
       {:meme, "~> 0.2", organization: "coingaming"},
-      {:earmark, "~> 1.3.5"},
-      {:phoenix_slime, github: "coingaming/phoenix_slime", branch: "coingaming"},
+
       # dev tools
       {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
@@ -64,6 +52,7 @@ defmodule Bennu.MixProject do
 
   defp aliases do
     [
+      setup: ["./setup"],
       docs: ["docs", "cmd mkdir -p doc/priv/img/", "cmd cp -R priv/img/ doc/priv/img/", "docs"]
     ]
   end
