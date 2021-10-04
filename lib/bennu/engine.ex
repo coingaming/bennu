@@ -134,18 +134,23 @@ defmodule Bennu.Engine do
         input_schema: input_schema
       )
 
-    output =
-      Component.evaluate(
-        context: ctx,
-        component: component,
-        design: design,
-        input: input
-      )
+    # Continue to support single `output` return instead of `{output, assigns}` tuple
+    {output_from_evaluate, assigns_from_evaluate} =
+      case Component.evaluate(
+             context: ctx,
+             component: component,
+             design: design,
+             input: input
+           ) do
+        {_output, assigns} = value when is_map(assigns) -> value
+        {output, _} -> {output, %{}}
+        output -> {output, %{}}
+      end
 
     new_env0 =
       update_env(
         env: env,
-        output: output,
+        output: output_from_evaluate,
         output_schema: Component.output_schema(it: component),
         component: component
       )
@@ -164,6 +169,7 @@ defmodule Bennu.Engine do
     assigns =
       evaluated_input
       |> Map.from_struct()
+      |> Map.merge(assigns_from_evaluate)
       |> Map.to_list()
 
     live_component =

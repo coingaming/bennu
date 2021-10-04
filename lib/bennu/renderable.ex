@@ -3,7 +3,7 @@ defprotocol Bennu.Renderable do
 
   @type t :: __MODULE__.t()
   @type input :: term
-  @type output :: term
+  @type output :: term | {term, map()}
 
   @spec evaluate(t, input, RenderContext.t()) :: output
   def evaluate(t, input, context)
