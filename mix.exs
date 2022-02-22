@@ -2,14 +2,16 @@ defmodule Bennu.MixProject do
   use Mix.Project
 
   def project do
+    version = version()
     [
       app: :bennu,
-      version: "0.1.0",
+      version: version,
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
+      package: package(version),
       # dialyxir
       dialyzer: [
         ignore_warnings: ".dialyzer_ignore",
@@ -17,7 +19,11 @@ defmodule Bennu.MixProject do
           :mix,
           :ex_unit
         ]
-      ]
+      ],
+      # docs
+      name: "Bennu",
+      source_url: "https://github.com/coingaming/bennu/tree/v#{version}",
+      homepage_url: "https://github.com/coingaming/bennu/tree/v#{version}"
     ]
   end
 
@@ -25,6 +31,24 @@ defmodule Bennu.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp version do
+    case File.read("VERSION") do
+      {:ok, version} -> String.trim(version)
+      {:error, _} -> "0.0.0-development"
+    end
+  end
+
+  defp package(version) do
+    [
+      organization: "coingaming",
+      licenses: ["UNLICENSED"],
+      files: ["lib", "mix.exs", "README.md", "VERSION"],
+      links: %{
+        "GitHub" => "https://github.com/coingaming/bennu/tree/v#{version}"
+      }
     ]
   end
 
@@ -40,7 +64,7 @@ defmodule Bennu.MixProject do
       {:excoveralls, "~> 0.11", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 0.5", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false},
-      {:credo, "~> 0.9", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
       {:benchwarmer, "~> 0.0.2", only: [:dev, :test], runtime: false},
       {:benchfella, "~> 0.3.0", only: :bench, runtime: false}
     ]
