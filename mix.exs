@@ -22,7 +22,7 @@ defmodule Bennu.MixProject do
       ],
       # docs
       name: "Bennu",
-      source_url: "https://github.com/coingaming/bennu/tree/v#{version}",
+      source_url: "https://github.com/coingaming/bennu",
       homepage_url: "https://github.com/coingaming/bennu/tree/v#{version}"
     ]
   end
@@ -45,7 +45,7 @@ defmodule Bennu.MixProject do
     [
       organization: "coingaming",
       licenses: ["UNLICENSED"],
-      files: ["lib", "mix.exs", "README.md", "VERSION"],
+      files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "VERSION"],
       links: %{
         "GitHub" => "https://github.com/coingaming/bennu/tree/v#{version}"
       }
