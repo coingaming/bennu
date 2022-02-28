@@ -1,11 +1,15 @@
 defmodule Bennu.MixProject do
   use Mix.Project
+  
+  @version (case File.read("VERSION") do
+    {:ok, version} -> String.trim(version)
+    {:error, _} -> "0.0.0-development"
+  end)
 
   def project do
-    version = version()
     [
       app: :bennu,
-      version: version,
+      version: @version,
       elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -23,7 +27,10 @@ defmodule Bennu.MixProject do
       # docs
       name: "Bennu",
       source_url: "https://github.com/coingaming/bennu",
-      homepage_url: "https://github.com/coingaming/bennu/tree/v#{version}"
+      homepage_url: "https://github.com/coingaming/bennu/tree/v#{@version}",
+      docs: [
+        source_ref: "v#{@version}"
+      ]
     ]
   end
 
@@ -34,20 +41,13 @@ defmodule Bennu.MixProject do
     ]
   end
 
-  defp version do
-    case File.read("VERSION") do
-      {:ok, version} -> String.trim(version)
-      {:error, _} -> "0.0.0-development"
-    end
-  end
-
-  defp package(version) do
+  defp package do
     [
       organization: "coingaming",
       licenses: ["UNLICENSED"],
       files: ["lib", "mix.exs", "README.md", "CHANGELOG.md", "VERSION"],
       links: %{
-        "GitHub" => "https://github.com/coingaming/bennu/tree/v#{version}"
+        "GitHub" => "https://github.com/coingaming/bennu/tree/v#{@version}"
       }
     ]
   end
