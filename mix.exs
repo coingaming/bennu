@@ -1,6 +1,6 @@
 defmodule Bennu.MixProject do
   use Mix.Project
-  
+
   @version (case File.read("VERSION") do
     {:ok, version} -> String.trim(version)
     {:error, _} -> "0.0.0-development"
@@ -15,7 +15,7 @@ defmodule Bennu.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
-      package: package(version),
+      package: package(),
       # dialyxir
       dialyzer: [
         ignore_warnings: ".dialyzer_ignore",
